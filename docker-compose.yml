@@ -1,0 +1,14 @@
+version: '3'
+services:
+  metrikcorp-v2:
+    build: .
+    container_name: metrikcorp-v2
+    expose:
+      - "3000"
+    networks:
+      - web
+    restart: always
+
+networks:
+  web:
+    external: true

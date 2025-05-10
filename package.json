@@ -1,0 +1,20 @@
+{
+  "name": "metrikcorp-v2",
+  "version": "1.0.0",
+  "description": "Rebuilt MetrikCorp website with GSAP, React, and Vite",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "gsap": "^3.12.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "vite": "^5.2.0"
+  }
+}

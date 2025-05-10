@@ -1,0 +1,315 @@
+/* ==========================================================================
+   MetrikCorp Global Stylesheet
+   Fully structured with theme support, layout rules, and canvas animation flow
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   BRAND COLOR PALETTE - Base and Theme Variables
+-------------------------------------------------------------------------- */
+:root {
+  --color-primary: #1a47ff;     /* 🔵 Royal Blue - main brand color */
+  --color-accent:  #00ffc3;     /* 🌱 Electric Mint - call-to-action highlights */
+  --color-bg:      #0d0d0d;     /* ⚫ Main background (dark mode) */
+  --color-panel:   #181a1f;     /* 🧱 Panel/card base */
+  --color-text:    #f0f0f0;     /* 🤍 Default text */
+  --color-subtext: #aaaaaa;     /* 🌫️ Subtle secondary text */
+  --color-danger:  #ff4f4f;     /* 🔴 For errors/alerts */
+}
+
+/* 🌞 Light Mode Overrides */
+[data-theme='light'] {
+  --color-bg:      #f8f9fa;
+  --color-panel:   #ffffff;
+  --color-text:    #111111;
+  --color-subtext: #444444;
+  --color-accent:  #007bff;
+}
+
+/* --------------------------------------------------------------------------
+   GLOBAL TEXT UTILITY CLASSES
+   -------------------------------------------------------------------------- */
+
+/* Keeps text white regardless of theme — ideal for dark canvas bg */
+.always-light-text {
+  color: #ffffff !important;
+}
+
+/* Keeps text dark regardless of theme — use over white panels */
+.always-dark-text {
+  color: #111111 !important;
+}
+
+/* Applies branded subtext tone */
+.always-subtext {
+  color: var(--color-subtext) !important;
+}
+
+/* --------------------------------------------------------------------------
+   GLOBAL BASE STYLES & TYPOGRAPHY
+   -------------------------------------------------------------------------- */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background 0.3s ease, color 0.3s ease;
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3 {
+  text-align: center;
+}
+
+/* Layout container */
+.container {
+  max-width: 1200px;
+  padding: 0 24px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2; /* Layer above canvas */
+}
+
+/* --------------------------------------------------------------------------
+   ANIMATED BACKGROUND LAYER – network.js
+   Shared across all sections
+-------------------------------------------------------------------------- */
+#network-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   HEADER + NAVIGATION
+   -------------------------------------------------------------------------- */
+.site-header {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 3;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.main-nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+  color: var(--color-accent);
+}
+
+.theme-toggle {
+  background: transparent;
+  border: 2px solid var(--color-subtext);
+  color: var(--color-subtext);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 20px;
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-panel);
+  color: var(--color-accent);
+}
+
+/* --------------------------------------------------------------------------
+   HERO SECTION
+-------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  text-align: center;
+  padding: 140px 20px;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: var(--color-subtext);
+  max-width: 720px;
+  margin: 0 auto 30px;
+}
+
+/* --------------------------------------------------------------------------
+   CTA BUTTONS (used across hero, CTA, services)
+-------------------------------------------------------------------------- */
+.cta-button,
+.cta-primary {
+  background: var(--color-accent);
+  color: #000;
+  padding: 14px 30px;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover,
+.cta-primary:hover {
+  background: #00ddb0;
+}
+
+/* --------------------------------------------------------------------------
+   ABOUT SECTION
+-------------------------------------------------------------------------- */
+.about-section {
+  padding: 100px 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.about-section p {
+  max-width: 850px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--color-subtext);
+}
+
+/* --------------------------------------------------------------------------
+   SERVICES SECTION – Flip Card Grid
+-------------------------------------------------------------------------- */
+.services-section {
+  padding: 100px 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+/* Flip Card Container */
+.flip-card {
+  background-color: transparent;
+  perspective: 1000px;
+}
+
+/* Inner Flip Logic */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Front/Back Faces */
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-panel);
+  color: var(--color-text);
+}
+
+.flip-card-front .icon-img {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 12px;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  background: #111; /* Strong contrast for back */
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   WHY METRIKCORP SECTION (same grid style as services)
+-------------------------------------------------------------------------- */
+.why-metrik {
+  padding: 100px 20px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Reuse services-grid & service-card */
+
+/* --------------------------------------------------------------------------
+   CTA BANNER SECTION
+-------------------------------------------------------------------------- */
+.cta-banner {
+  background: transparent;
+  text-align: center;
+  padding: 80px 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-banner h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   FOOTER STYLES
+-------------------------------------------------------------------------- */
+footer {
+  background-color: var(--color-bg);
+  color: var(--color-subtext);
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 3;
+  position: relative;
+}
+
+/* Light mode override for footer */
+[data-theme='light'] footer {
+  background-color: #ffffff;
+  color: #333333;
+  border-top: 1px solid #cccccc;
+}
