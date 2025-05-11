@@ -1,16 +1,33 @@
 // File: src/pages/Home.jsx
 // ============================================================================
-// Home.jsx – Homepage content for MetrikCorp
+// Home.jsx – Homepage with enhanced scroll animations (GSAP + ScrollTrigger)
+// – React‑Feather SVG icons
+// – Full hero/about/services/why/CTA sections
+// – Responsive from mobile to 8K
 // ============================================================================
 
 import React, { useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import {
+  Mail,
+  Code,
+  Monitor,
+  Shield,
+  Server,
+  BarChart2,
+  UserCheck,
+  Cpu,
+  Globe,
+  TrendingUp
+} from 'react-feather';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  // Inject the animated canvas background
+  // ────────────────────────────────────────────────────────────────────────────
+  // Inject the network.js canvas background
+  // ────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     const script = document.createElement('script');
     script.src = '/network.js';
@@ -19,168 +36,135 @@ export default function Home() {
     return () => document.body.removeChild(script);
   }, []);
 
-  // Batch animate headings, text, and cards
+  // ────────────────────────────────────────────────────────────────────────────
+  // Enhanced scroll animations for headings, text and cards
+  // ────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
-    ScrollTrigger.batch(
-      ['.section-title', '.section-text'],
-      {
-        onEnter: batch =>
-          gsap.fromTo(batch, { opacity: 0, y: 20 }, { opacity: 1, y: 0, stagger: 0.1, duration: 0.6 }),
-        start: 'top 85%',
-        once: true,
-      }
-    );
-    ScrollTrigger.batch('.service-card', {
-      onEnter: batch =>
-        gsap.fromTo(batch, { opacity: 0, y: 40 }, { opacity: 1, y: 0, stagger: 0.1, duration: 0.5 }),
-      start: 'top 85%',
-      once: true,
+    // Animate section titles & text blocks
+    gsap.utils.toArray('.section-title, .section-text').forEach((el) => {
+      gsap.from(el, {
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 80%',         // when top of el hits 80% viewport
+          end: 'bottom 20%',
+          toggleActions: 'play reverse play reverse',
+        },
+        opacity: 0,
+        y: 40,
+        scale: 0.98,
+        duration: 0.8,
+        ease: 'power3.out',
+      });
     });
-    ScrollTrigger.batch('.why-card', {
-      onEnter: batch =>
-        gsap.fromTo(batch, { opacity: 0, y: 30 }, { opacity: 1, y: 0, stagger: 0.1, duration: 0.5 }),
-      start: 'top 85%',
-      once: true,
+
+    // Animate each service & why‑card individually
+    gsap.utils.toArray('.service-card, .why-card').forEach((el, i) => {
+      gsap.from(el, {
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 90%',
+          end: 'bottom 10%',
+          toggleActions: 'play reverse play reverse',
+        },
+        opacity: 0,
+        y: 60,
+        scale: 0.95,
+        duration: 0.7,
+        ease: 'back.out(1.3)',
+        delay: i * 0.1,             // stagger even on fast scroll
+      });
     });
   }, []);
 
-  // Data for Services and Why sections
+  // ────────────────────────────────────────────────────────────────────────────
+  // Services (with React‑Feather SVG icons)
+  // ────────────────────────────────────────────────────────────────────────────
   const services = [
-    {
-      icon: '/assets/icons/web.png',
-      title: 'Custom Web Development',
-      description:
-        'Fully custom websites using React, WordPress, or PHP. Built for performance and tailored to your business.',
-    },
-    {
-      icon: '/assets/icons/stack.png',
-      title: 'Server & Stack Optimization',
-      description:
-        'WHM, Docker, cPanel, AlmaLinux — configured for speed, security, and uptime.',
-    },
-    {
-      icon: '/assets/icons/launch.png',
-      title: 'Hosting Setup & Launch',
-      description:
-        'We’ll deploy your site on any host with DNS, SSL, and mail setup — or manage it for you.',
-    },
-    {
-      icon: '/assets/icons/seo.png',
-      title: 'Performance & SEO Tuning',
-      description:
-        'Core Web Vitals, technical SEO, caching — all handled for speed and visibility.',
-    },
-    {
-      icon: '/assets/icons/shield.png',
-      title: 'Security & Malware Cleanup',
-      description:
-        'Malware removal, code audit, security patches, and server hardening.',
-    },
-    {
-      icon: '/assets/icons/mail.png',
-      title: 'Email & DNS Configuration',
-      description:
-        'SPF, DKIM, DMARC, SMTP routing — stay out of spam and in the inbox.',
-    },
+    { Icon: Mail,      title: 'Professional Email & DNS',    description: 'Setup and manage SPF/DKIM/DMARC, custom mail servers or G Suite—so you always reach the inbox.' },
+    { Icon: Code,      title: 'Custom Website Development',  description: 'Fast, SEO‑friendly sites built on React, WordPress or PHP—tailored to your brand and goals.' },
+    { Icon: Monitor,   title: '24/7 Uptime Monitoring',      description: 'Continuous checks, alerts & on‑call fixes—keeping your site live around the clock.' },
+    { Icon: Shield,    title: 'Security & Malware Cleanup',  description: 'Regular audits, patching, firewall hardening, and malware removal to lock down your infrastructure.' },
+    { Icon: Server,    title: 'Hosting & Server Management', description: 'From shared hosting to Docker/Kubernetes clusters—optimized for speed, scale and cost.' },
+    { Icon: BarChart2, title: 'Growth & Scaling Strategy',   description: 'Advice on performance tuning, CDN, caching, and next‑level infrastructure to support your growth.' },
   ];
 
+  // ────────────────────────────────────────────────────────────────────────────
+  // Why choose MetrikCorp?
+  // ────────────────────────────────────────────────────────────────────────────
   const values = [
-    {
-      icon: '/assets/icons/expert.png',
-      title: 'Work Directly with the Expert',
-      description:
-        'No outsourcing, no account managers — just real‑time, expert‑level support from the person who built your system.',
-    },
-    {
-      icon: '/assets/icons/server.png',
-      title: 'Full‑Stack Delivery',
-      description:
-        'From server architecture and hosting to frontend design and launch — you’ll get a single expert across the stack.',
-    },
-    {
-      icon: '/assets/icons/growth.png',
-      title: 'Reliable & Scalable',
-      description:
-        'Everything we build is structured for long‑term success, with clean code, modern tools, and best practices.',
-    },
-    {
-      icon: '/assets/icons/shield.png',
-      title: 'Secure by Default',
-      description:
-        'We harden all environments and deploy strict controls to protect your data and uptime.',
-    },
+    { Icon: UserCheck, title: 'Hands‑On Expert Support', description: 'Work directly with a senior full‑stack and Linux pro—no account managers in between.' },
+    { Icon: Globe,     title: 'All‑In‑One Partner',        description: 'Email, web, servers, security and scaling—everything under one roof for total peace of mind.' },
+    { Icon: Cpu,       title: 'Always Up & Secure',        description: '24/7 monitoring, automatic updates, and proactive hardening to prevent downtime and hacks.' },
+    { Icon: TrendingUp,title: 'Built to Scale',            description: 'From mom‑and‑pop shops to high‑traffic platforms—we design systems that grow with you.' },
   ];
 
   return (
     <>
+      {/* ─────────────────────────────────────────────────────────────────────── */}
       {/* HERO */}
+      {/* ─────────────────────────────────────────────────────────────────────── */}
       <section className="hero">
         <canvas id="network-bg" />
         <div className="hero-text container">
-          <h1 className="section-title">Digital Infrastructure, Delivered Right</h1>
+          <h1 className="section-title">Start Your Online Journey Today!</h1>
           <p className="section-text">
-            We help businesses launch, scale, and secure their digital presence through expert web development and infrastructure engineering.
+            We help busy businesses launch, maintain and secure their entire online presence—websites, email,
+            hosting, monitoring and security—so you can focus on running your business.
           </p>
           <a className="cta-button" href="/contact">
-            Launch Your Online Journey Today!
+            Schedule Your Free Consultation
           </a>
         </div>
       </section>
 
+      {/* ─────────────────────────────────────────────────────────────────────── */}
       {/* ABOUT */}
+      {/* ─────────────────────────────────────────────────────────────────────── */}
       <section className="about-section container">
-        <h2 className="section-title">About MetrikCorp</h2>
+        <h2 className="section-title">Who We Are</h2>
         <p className="section-text">
-          MetrikCorp is a one‑person digital engineering studio led by a senior Linux administrator and full‑stack developer.
-        </p>
-        <p className="section-text">
-          By combining development and infrastructure under one roof, we deliver streamlined solutions that work flawlessly from launch to long‑term growth.
+          MetrikCorp is a one‑person digital engineering studio led by a senior Linux administrator and full‑stack
+          web developer. We specialize in professional email, custom websites, hosting, security, and 24/7 monitoring—so you never worry about the tech.
         </p>
       </section>
 
+      {/* ─────────────────────────────────────────────────────────────────────── */}
       {/* SERVICES */}
+      {/* ─────────────────────────────────────────────────────────────────────── */}
       <section className="services-section container">
         <h2 className="section-title">Our Services</h2>
         <div className="services-grid">
-          {services.map((svc, idx) => (
+          {services.map(({ Icon, title, description }, idx) => (
             <div className="service-card" key={idx}>
-              <img
-                src={svc.icon}
-                className="icon-img"
-                alt={`${svc.title} icon`}
-                loading="lazy"
-                onError={e => (e.currentTarget.src = '/assets/icons/fallback.png')}
-              />
-              <h3>{svc.title}</h3>
-              <p>{svc.description}</p>
+              <Icon className="icon-svg" />
+              <h3>{title}</h3>
+              <p>{description}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* WHY METRIKCORP */}
+      {/* ─────────────────────────────────────────────────────────────────────── */}
+      {/* WHY US */}
+      {/* ─────────────────────────────────────────────────────────────────────── */}
       <section className="why-metrik container">
         <h2 className="section-title">Why MetrikCorp?</h2>
         <div className="why-grid">
-          {values.map((val, idx) => (
+          {values.map(({ Icon, title, description }, idx) => (
             <div className="service-card why-card" key={idx}>
-              <img
-                src={val.icon}
-                className="icon-img"
-                alt={`${val.title} icon`}
-                loading="lazy"
-                onError={e => (e.currentTarget.src = '/assets/icons/fallback.png')}
-              />
-              <h3>{val.title}</h3>
-              <p>{val.description}</p>
+              <Icon className="icon-svg" />
+              <h3>{title}</h3>
+              <p>{description}</p>
             </div>
           ))}
         </div>
       </section>
 
+      {/* ─────────────────────────────────────────────────────────────────────── */}
       {/* CTA BANNER */}
+      {/* ─────────────────────────────────────────────────────────────────────── */}
       <section className="cta-banner container">
-        <h2 className="section-title">Ready to simplify your online presence?</h2>
+        <h2 className="section-title">Ready to Simplify Your Online Presence?</h2>
         <a className="cta-button" href="/contact">
           Let’s Talk
         </a>
