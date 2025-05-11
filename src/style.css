@@ -1,7 +1,24 @@
-/* ==========================================================================
+/* ========================================================================== 
    MetrikCorp Global Stylesheet
-   Fully structured with theme support, layout rules, and canvas animation flow
+   Fully structured with theme support, layout rules, responsive design, 
+   canvas animation flow, and sticky footer
    ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0) FULL‑HEIGHT FLEX LAYOUT FOR STICKY FOOTER
+-------------------------------------------------------------------------- */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.main-content {
+  flex: 1; /* grow to push footer to bottom */
+}
 
 /* --------------------------------------------------------------------------
    1) BRAND COLOR PALETTE - Base and Theme Variables
@@ -25,26 +42,34 @@
   --color-accent:  #007bff;
 }
 
-
 /* --------------------------------------------------------------------------
-   3) GLOBAL BASE STYLES & TYPOGRAPHY
+   2) GLOBAL BASE STYLES & FLUID TYPOGRAPHY
 -------------------------------------------------------------------------- */
 body {
-  margin: 0;
   font-family: 'Poppins', sans-serif;
   background-color: var(--color-bg);
   color: var(--color-text);
   transition: background 0.3s ease, color 0.3s ease;
   scroll-behavior: smooth;
 }
-
 h1, h2, h3 {
   text-align: center;
   margin: 0;
 }
+/* fluid font sizing from small to huge screens */
+h1 {
+  font-size: clamp(1.5rem, 5vw, 4rem);
+}
+h2 {
+  font-size: clamp(1.25rem, 4vw, 3rem);
+}
+p {
+  font-size: clamp(0.875rem, 1.5vw, 1.2rem);
+}
 
 /* Layout container */
 .container {
+  width: 100%;
   max-width: 1200px;
   padding: 0 24px;
   margin: 0 auto;
@@ -53,7 +78,7 @@ h1, h2, h3 {
 }
 
 /* --------------------------------------------------------------------------
-   4) GLOBAL ICON SIZING
+   3) GLOBAL ICON SIZING
    Ensures all <img class="icon-img"> are 48×48px and centered
 -------------------------------------------------------------------------- */
 .icon-img {
@@ -65,7 +90,7 @@ h1, h2, h3 {
 }
 
 /* --------------------------------------------------------------------------
-   5) ANIMATED BACKGROUND LAYER – network.js
+   4) ANIMATED BACKGROUND LAYER – network.js
 -------------------------------------------------------------------------- */
 #network-bg {
   position: fixed;
@@ -79,7 +104,7 @@ h1, h2, h3 {
 }
 
 /* --------------------------------------------------------------------------
-   6) HEADER + NAVIGATION
+   5) HEADER + NAVIGATION
 -------------------------------------------------------------------------- */
 .site-header {
   position: sticky;
@@ -100,6 +125,7 @@ h1, h2, h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   padding: 12px 0;
 }
 
@@ -110,8 +136,14 @@ h1, h2, h3 {
   margin: 0;
 }
 
+.main-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .main-nav a {
-  margin-left: 20px;
+  margin: 8px 12px;
   text-decoration: none;
   font-weight: 500;
   color: var(--color-text);
@@ -129,7 +161,7 @@ h1, h2, h3 {
 }
 
 .theme-toggle {
-  margin-left: 20px;
+  margin: 8px 0 0 0;
   padding: 6px 12px;
   font-size: 0.9rem;
   font-weight: 500;
@@ -147,9 +179,7 @@ h1, h2, h3 {
   border-color: var(--color-accent);
 }
 
-/* --------------------------------------------------------------------------
-   7) Light‑Mode Header Overrides
--------------------------------------------------------------------------- */
+/* Light‑Mode Header Overrides */
 [data-theme='light'] .site-header {
   background: var(--color-panel);
   background-image: linear-gradient(
@@ -169,7 +199,6 @@ h1, h2, h3 {
 }
 
 [data-theme='light'] .main-nav a.active {
-  color: var(--color-accent);
   border-bottom-color: var(--color-accent);
 }
 
@@ -178,37 +207,28 @@ h1, h2, h3 {
   border-color: var(--color-text);
 }
 
-[data-theme='light'] .theme-toggle:hover {
-  background: var(--color-accent);
-  color: #000;
-  border-color: var(--color-accent);
-}
-
 /* --------------------------------------------------------------------------
-   8) HERO SECTION
+   6) HERO SECTION
 -------------------------------------------------------------------------- */
 .hero {
   position: relative;
   text-align: center;
-  padding: 140px 20px;
+  padding: clamp(60px, 15vw, 140px) 20px;
   z-index: 2;
 }
 
 .hero h1 {
-  font-size: 3rem;
-  font-weight: 600;
   margin-bottom: 20px;
 }
 
 .hero p {
-  font-size: 1.2rem;
   color: var(--color-subtext);
   max-width: 720px;
   margin: 0 auto 30px;
 }
 
 /* --------------------------------------------------------------------------
-   9) CTA BUTTONS (used across hero, CTA, services)
+   7) CTA BUTTONS (used across hero, CTA, services)
 -------------------------------------------------------------------------- */
 .cta-button,
 .cta-primary {
@@ -228,41 +248,38 @@ h1, h2, h3 {
 }
 
 /* --------------------------------------------------------------------------
-   10) ABOUT SECTION
+   8) ABOUT SECTION
 -------------------------------------------------------------------------- */
 .about-section {
-  padding: 100px 20px;
-  position: relative;
+  padding: clamp(60px, 10vw, 100px) 20px;
   z-index: 2;
 }
 
 .about-section p {
   max-width: 850px;
   margin: 0 auto;
-  font-size: 1.05rem;
   line-height: 1.7;
   color: var(--color-subtext);
 }
 
 /* --------------------------------------------------------------------------
-   11) SERVICES SECTION – Flip Card Grid
+   9) SERVICES SECTION – Flip Card Grid
 -------------------------------------------------------------------------- */
 .services-section {
-  padding: 100px 20px;
-  position: relative;
+  padding: clamp(60px, 10vw, 100px) 20px;
   z-index: 2;
 }
 
 .section-title {
-  font-size: 2rem;
-  margin-bottom: 40px;
+  font-size: clamp(1.75rem, 4vw, 2rem);
+  margin-bottom: clamp(20px, 3vw, 40px);
 }
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 30px;
-  margin-top: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
 }
 
 /* Flip Card Container */
@@ -302,7 +319,6 @@ h1, h2, h3 {
   color: var(--color-text);
 }
 
-/* Icon sizing inside flip cards */
 .flip-card-front .icon-img {
   width: 40px;
   height: 40px;
@@ -316,23 +332,21 @@ h1, h2, h3 {
 }
 
 /* --------------------------------------------------------------------------
-   12) WHY METRIKCORP SECTION
+   10) WHY METRIKCORP SECTION
 -------------------------------------------------------------------------- */
 .why-metrik {
-  padding: 100px 20px;
-  position: relative;
+  padding: clamp(60px, 10vw, 100px) 20px;
   z-index: 2;
 }
 
-/* New: grid for “Why MetrikCorp” cards */
 .why-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 30px;
-  margin-top: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
 }
 
-/* New: service-card styling (used in Services and Why sections) */
+/* .service-card is shared by Services and Why sections */
 .service-card {
   background: var(--color-panel);
   padding: 1.5rem;
@@ -341,48 +355,66 @@ h1, h2, h3 {
 }
 
 /* --------------------------------------------------------------------------
-   13) CTA BANNER SECTION
+   11) CTA BANNER SECTION
 -------------------------------------------------------------------------- */
 .cta-banner {
   background: transparent;
   text-align: center;
-  padding: 80px 20px;
-  position: relative;
+  padding: clamp(40px, 8vw, 80px) 20px;
   z-index: 2;
 }
 
 .cta-banner h2 {
-  font-size: 1.8rem;
+  font-size: clamp(1.25rem, 3vw, 1.8rem);
   margin-bottom: 20px;
 }
 
 /* --------------------------------------------------------------------------
-   14) Footer Styles – theme‑aware, responsive to dark/light modes
+   12) FOOTER STYLES – theme‑aware, responsive to dark/light modes
 -------------------------------------------------------------------------- */
 .site-footer {
-  /* Use panel background from theme variables */
   background-color: var(--color-panel);
-  /* Secondary text color by default */
   color: var(--color-subtext);
-  /* Centered text with comfortable padding */
   text-align: center;
   padding: 30px 20px;
   font-size: 0.9rem;
-  /* Thin top border for separation */
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  position: relative;
   z-index: 3;
 }
 
-/* --------------------------------------------------------------------------
-   Light‑Mode Footer Overrides
-   Ensures footer flips to light‑theme colors when [data-theme='light'] is active
--------------------------------------------------------------------------- */
 [data-theme='light'] .site-footer {
-  /* Match the light‑mode panel background */
   background-color: var(--color-panel);
-  /* Primary text color in light mode (dark text) */
   color: var(--color-text);
-  /* Use lighter subtext variable for the border */
   border-top: 1px solid var(--color-subtext);
+}
+
+/* --------------------------------------------------------------------------
+   13) NAV & LAYOUT BREAKPOINTS
+   Improves usability on small screens (phones) and ensures large-screen
+   grids remain centered for ultra‑wide displays (up to 8K).
+-------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .main-nav {
+    margin-top: 12px;
+    width: 100%;
+    justify-content: space-around;
+  }
+  .theme-toggle {
+    margin: 12px 0 0 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero,
+  .about-section,
+  .services-section,
+  .why-metrik,
+  .cta-banner {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }

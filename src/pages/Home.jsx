@@ -1,81 +1,68 @@
 // File: src/pages/Home.jsx
 // ============================================================================
-// Home.jsx – MetrikCorp Homepage
-// Fully structured and animated React component with theme‑compatible styling
+// Home.jsx – Homepage content for MetrikCorp
+// - Injects the network.js canvas background
+// - Renders Hero, About, Services, Why and CTA sections
+// - Batch‑animates all elements with GSAP + ScrollTrigger for instant reveals
+// - Fully responsive from phones up to 8K screens
 // ============================================================================
 
 import React, { useEffect } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// Register GSAP’s ScrollTrigger plugin once
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  // ────────────────────────────────────────────────────────────────────────────
-  // Inject the animated network background script when component mounts
-  // ────────────────────────────────────────────────────────────────────────────
+  // ─── Inject network.js canvas script on mount ─────────────────────────────
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = '/network.js';    // real‑time canvas animation
+    script.src = '/network.js';
     script.async = true;
     document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
+    return () => document.body.removeChild(script);
   }, []);
 
-  // ────────────────────────────────────────────────────────────────────────────
-  // GSAP ScrollTrigger animations for section titles, service cards, and why‑cards
-  // ────────────────────────────────────────────────────────────────────────────
+  // ─── GSAP ScrollTrigger.batch for instant batch animations ────────────────
   useEffect(() => {
-    // Animate each section title as it scrolls into view
-    gsap.utils.toArray('.section-title').forEach((el) => {
-      gsap.from(el, {
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 80%',       // when the top of the element hits 80% of viewport
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-      });
+    // Animate all headings and text blocks
+    ScrollTrigger.batch('.section-title, .section-text', {
+      onEnter: batch =>
+        gsap.fromTo(
+          batch,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, stagger: 0.1, duration: 0.6 }
+        ),
+      start: 'top 85%',
+      once: true,
     });
 
-    // Animate service cards one by one
-    gsap.utils.toArray('.service-card').forEach((el, i) => {
-      gsap.from(el, {
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 85%',
-        },
-        opacity: 0,
-        y: 40,
-        duration: 0.5,
-        delay: i * 0.2,           // stagger by 0.2s per card
-      });
+    // Animate service cards
+    ScrollTrigger.batch('.service-card', {
+      onEnter: batch =>
+        gsap.fromTo(
+          batch,
+          { opacity: 0, y: 40 },
+          { opacity: 1, y: 0, stagger: 0.1, duration: 0.5 }
+        ),
+      start: 'top 85%',
+      once: true,
     });
 
-    // Animate “Why MetrikCorp” cards
-    gsap.utils.toArray('.why-card').forEach((el, i) => {
-      gsap.from(el, {
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 85%',
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.6,
-        delay: i * 0.15,
-      });
+    // Animate why‑cards
+    ScrollTrigger.batch('.why-card', {
+      onEnter: batch =>
+        gsap.fromTo(
+          batch,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, stagger: 0.1, duration: 0.5 }
+        ),
+      start: 'top 85%',
+      once: true,
     });
   }, []);
 
-  // ────────────────────────────────────────────────────────────────────────────
-  // Data arrays driving the Services & Why‑MetrikCorp sections
-  // ────────────────────────────────────────────────────────────────────────────
+  // ─── Data for Services & Why sections ───────────────────────────────────────
   const services = [
     {
       icon: '/assets/icons/web.png',
@@ -120,7 +107,7 @@ export default function Home() {
       icon: '/assets/icons/expert.png',
       title: 'Work Directly with the Expert',
       description:
-        'No outsourcing, no account managers — just real-time, expert‑level support from the person who built your system.',
+        'No outsourcing, no account managers — just real‑time, expert‑level support from the person who built your system.',
     },
     {
       icon: '/assets/icons/server.png',
@@ -144,21 +131,13 @@ export default function Home() {
 
   return (
     <>
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* SITE HEADER */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      <Header />
-
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* HERO SECTION */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      <section className="hero always-light-text">
-        <canvas id="network-bg"></canvas>
+      {/* ─── HERO SECTION ─────────────────────────────────────────────────────── */}
+      <section className="hero">
+        <canvas id="network-bg" />
         <div className="hero-text container">
-          <h1>Digital Infrastructure, Delivered Right</h1>
-          <p>
-            We help businesses launch, scale, and secure their digital presence through expert web development
-            and infrastructure engineering.
+          <h1 className="section-title">Digital Infrastructure, Delivered Right</h1>
+          <p className="section-text">
+            We help businesses launch, scale, and secure their digital presence through expert web development and infrastructure engineering.
           </p>
           <a className="cta-button" href="/contact">
             Schedule Your Free Consultation
@@ -166,83 +145,68 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* ABOUT SECTION */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
+      {/* ─── ABOUT SECTION ────────────────────────────────────────────────────── */}
       <section className="about-section container">
-        <h2 className="section-title always-light-text">About MetrikCorp</h2>
-        <p className="always-light-text">
-          MetrikCorp is a one-person digital engineering studio led by a senior Linux administrator and full-stack
-          developer. We specialize in transforming complex business needs into simple, secure, and scalable systems —
-          from websites to server stacks. By combining development and infrastructure under one roof, we deliver
-          streamlined solutions that work flawlessly from launch to long-term growth.
+        <h2 className="section-title">About MetrikCorp</h2>
+        <p className="section-text">
+          MetrikCorp is a one‑person digital engineering studio led by a senior Linux administrator and full‑stack developer.
+        </p>
+        <p className="section-text">
+          By combining development and infrastructure under one roof, we deliver streamlined solutions that work flawlessly from launch to long‑term growth.
         </p>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* SERVICES SECTION */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
+      {/* ─── SERVICES SECTION ─────────────────────────────────────────────────── */}
       <section className="services-section container">
-        <h2 className="section-title always-light-text">Our Services</h2>
+        <h2 className="section-title">Our Services</h2>
         <div className="services-grid">
-          {services.map((service, idx) => (
-            <div className="service-card always-light-text" key={idx}>
-              {/* Icon with consistent sizing, lazy load, and fallback */}
+          {services.map((svc, idx) => (
+            <div className="service-card" key={idx}>
               <img
-                src={service.icon}
+                src={svc.icon}
+                alt={`${svc.title} icon`}
                 className="icon-img"
-                alt={`${service.title} icon`}
                 loading="lazy"
                 onError={(e) => {
                   e.currentTarget.src = '/assets/icons/fallback.png';
                 }}
               />
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
+              <h3>{svc.title}</h3>
+              <p>{svc.description}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* WHY METRIKCORP SECTION */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
+      {/* ─── WHY METRIKCORP SECTION ───────────────────────────────────────────── */}
       <section className="why-metrik container">
-        <h2 className="section-title always-light-text">Why MetrikCorp?</h2>
+        <h2 className="section-title">Why MetrikCorp?</h2>
         <div className="why-grid">
-          {values.map((value, idx) => (
-            <div className="service-card why-card always-light-text" key={idx}>
-              {/* Icon with fallback */}
+          {values.map((val, idx) => (
+            <div className="service-card why-card" key={idx}>
               <img
-                src={value.icon}
+                src={val.icon}
+                alt={`${val.title} icon`}
                 className="icon-img"
-                alt={`${value.title} icon`}
                 loading="lazy"
                 onError={(e) => {
                   e.currentTarget.src = '/assets/icons/fallback.png';
                 }}
               />
-              <h3>{value.title}</h3>
-              <p>{value.description}</p>
+              <h3>{val.title}</h3>
+              <p>{val.description}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* CTA BANNER */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      <section className="cta-banner always-light-text">
-        <h2>Ready to simplify your online presence?</h2>
+      {/* ─── CTA BANNER ───────────────────────────────────────────────────────── */}
+      <section className="cta-banner container">
+        <h2 className="section-title">Ready to simplify your online presence?</h2>
         <a className="cta-button" href="/contact">
           Let’s Talk
         </a>
       </section>
-
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* SITE FOOTER */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      <Footer />
     </>
   );
 }
