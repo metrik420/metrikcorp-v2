@@ -1,10 +1,6 @@
 // File: src/pages/Home.jsx
 // ============================================================================
 // Home.jsx – Homepage content for MetrikCorp
-// - Injects the network.js canvas background
-// - Renders Hero, About, Services, Why and CTA sections
-// - Batch‑animates all elements with GSAP + ScrollTrigger for instant reveals
-// - Fully responsive from phones up to 8K screens
 // ============================================================================
 
 import React, { useEffect } from 'react';
@@ -14,7 +10,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  // ─── Inject network.js canvas script on mount ─────────────────────────────
+  // Inject the animated canvas background
   useEffect(() => {
     const script = document.createElement('script');
     script.src = '/network.js';
@@ -23,46 +19,32 @@ export default function Home() {
     return () => document.body.removeChild(script);
   }, []);
 
-  // ─── GSAP ScrollTrigger.batch for instant batch animations ────────────────
+  // Batch animate headings, text, and cards
   useEffect(() => {
-    // Animate all headings and text blocks
-    ScrollTrigger.batch('.section-title, .section-text', {
-      onEnter: batch =>
-        gsap.fromTo(
-          batch,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, stagger: 0.1, duration: 0.6 }
-        ),
-      start: 'top 85%',
-      once: true,
-    });
-
-    // Animate service cards
+    ScrollTrigger.batch(
+      ['.section-title', '.section-text'],
+      {
+        onEnter: batch =>
+          gsap.fromTo(batch, { opacity: 0, y: 20 }, { opacity: 1, y: 0, stagger: 0.1, duration: 0.6 }),
+        start: 'top 85%',
+        once: true,
+      }
+    );
     ScrollTrigger.batch('.service-card', {
       onEnter: batch =>
-        gsap.fromTo(
-          batch,
-          { opacity: 0, y: 40 },
-          { opacity: 1, y: 0, stagger: 0.1, duration: 0.5 }
-        ),
+        gsap.fromTo(batch, { opacity: 0, y: 40 }, { opacity: 1, y: 0, stagger: 0.1, duration: 0.5 }),
       start: 'top 85%',
       once: true,
     });
-
-    // Animate why‑cards
     ScrollTrigger.batch('.why-card', {
       onEnter: batch =>
-        gsap.fromTo(
-          batch,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, stagger: 0.1, duration: 0.5 }
-        ),
+        gsap.fromTo(batch, { opacity: 0, y: 30 }, { opacity: 1, y: 0, stagger: 0.1, duration: 0.5 }),
       start: 'top 85%',
       once: true,
     });
   }, []);
 
-  // ─── Data for Services & Why sections ───────────────────────────────────────
+  // Data for Services and Why sections
   const services = [
     {
       icon: '/assets/icons/web.png',
@@ -131,7 +113,7 @@ export default function Home() {
 
   return (
     <>
-      {/* ─── HERO SECTION ─────────────────────────────────────────────────────── */}
+      {/* HERO */}
       <section className="hero">
         <canvas id="network-bg" />
         <div className="hero-text container">
@@ -140,12 +122,12 @@ export default function Home() {
             We help businesses launch, scale, and secure their digital presence through expert web development and infrastructure engineering.
           </p>
           <a className="cta-button" href="/contact">
-            Schedule Your Free Consultation
+            Launch Your Online Journey Today!
           </a>
         </div>
       </section>
 
-      {/* ─── ABOUT SECTION ────────────────────────────────────────────────────── */}
+      {/* ABOUT */}
       <section className="about-section container">
         <h2 className="section-title">About MetrikCorp</h2>
         <p className="section-text">
@@ -156,7 +138,7 @@ export default function Home() {
         </p>
       </section>
 
-      {/* ─── SERVICES SECTION ─────────────────────────────────────────────────── */}
+      {/* SERVICES */}
       <section className="services-section container">
         <h2 className="section-title">Our Services</h2>
         <div className="services-grid">
@@ -164,12 +146,10 @@ export default function Home() {
             <div className="service-card" key={idx}>
               <img
                 src={svc.icon}
-                alt={`${svc.title} icon`}
                 className="icon-img"
+                alt={`${svc.title} icon`}
                 loading="lazy"
-                onError={(e) => {
-                  e.currentTarget.src = '/assets/icons/fallback.png';
-                }}
+                onError={e => (e.currentTarget.src = '/assets/icons/fallback.png')}
               />
               <h3>{svc.title}</h3>
               <p>{svc.description}</p>
@@ -178,7 +158,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── WHY METRIKCORP SECTION ───────────────────────────────────────────── */}
+      {/* WHY METRIKCORP */}
       <section className="why-metrik container">
         <h2 className="section-title">Why MetrikCorp?</h2>
         <div className="why-grid">
@@ -186,12 +166,10 @@ export default function Home() {
             <div className="service-card why-card" key={idx}>
               <img
                 src={val.icon}
-                alt={`${val.title} icon`}
                 className="icon-img"
+                alt={`${val.title} icon`}
                 loading="lazy"
-                onError={(e) => {
-                  e.currentTarget.src = '/assets/icons/fallback.png';
-                }}
+                onError={e => (e.currentTarget.src = '/assets/icons/fallback.png')}
               />
               <h3>{val.title}</h3>
               <p>{val.description}</p>
@@ -200,7 +178,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── CTA BANNER ───────────────────────────────────────────────────────── */}
+      {/* CTA BANNER */}
       <section className="cta-banner container">
         <h2 className="section-title">Ready to simplify your online presence?</h2>
         <a className="cta-button" href="/contact">

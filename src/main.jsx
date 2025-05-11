@@ -1,14 +1,15 @@
-// ─────────────────────────────────────────────────────────────────────────────
 // File: src/main.jsx
-// Entry point: load theme, global styles, then render <App/>
-// ─────────────────────────────────────────────────────────────────────────────
+// ============================================================================
+// Main entry – applies saved theme and renders App.jsx as the top‑level wrapper
+// ============================================================================
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';               // now wraps all pages
-import './style.css';
+import App from './App';         // ← your new layout + router wrapper
+import './style.css';            // global styles
 import { loadSavedTheme } from './theme';
 
-loadSavedTheme(); // apply saved or default theme
+loadSavedTheme(); // Apply saved or default theme to <html data-theme="">
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
