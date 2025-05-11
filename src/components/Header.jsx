@@ -1,18 +1,31 @@
-// src/components/Header.jsx
+// File: src/components/Header.jsx
+// ============================================================================
+// Header.jsx – Site Header & Navigation
+// Uses brand palette, sticks to top, and supports dark/light modes
+// ============================================================================
+
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { applyTheme, loadSavedTheme } from '../theme';
 
 export default function Header() {
+  // ────────────────────────────────────────────────────────────────────────────
+  // Track current theme (dark/light) in local state
+  // ────────────────────────────────────────────────────────────────────────────
   const [theme, setTheme] = useState('dark');
 
-  // Load previously saved theme on mount
+  // ────────────────────────────────────────────────────────────────────────────
+  // On mount, load saved theme and apply it
+  // ────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
-    const current = loadSavedTheme();
+    const current = loadSavedTheme();  // returns 'dark' or 'light'
+    applyTheme(current);
     setTheme(current);
   }, []);
 
-  // Toggle dark/light mode and persist it
+  // ────────────────────────────────────────────────────────────────────────────
+  // Toggle between dark/light, persist and reapply CSS variables
+  // ────────────────────────────────────────────────────────────────────────────
   const toggleTheme = () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     applyTheme(newTheme);
@@ -22,23 +35,27 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className="container nav-container">
-        {/* Brand name or logo */}
+        {/* BRAND / LOGO */}
         <h1 className="logo">MetrikCorp</h1>
 
-        {/* Navigation Menu */}
+        {/* MAIN NAVIGATION */}
         <nav className="main-nav">
-          <NavLink to="/" end>Home</NavLink>
+          <NavLink to="/"       end>Home</NavLink>
           <NavLink to="/about">About</NavLink>
           <NavLink to="/services">Services</NavLink>
           <NavLink to="/projects">Projects</NavLink>
           <NavLink to="/contact">Contact</NavLink>
         </nav>
 
-        {/* Dark/light theme toggle button */}
-        <button className="theme-toggle" onClick={toggleTheme}>
+        {/* THEME TOGGLE */}
+        <button
+          className="theme-toggle"
+          onClick={toggleTheme}
+          aria-label="Toggle dark/light mode"
+        >
           {theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode'}
         </button>
       </div>
     </header>
-  );
+);
 }

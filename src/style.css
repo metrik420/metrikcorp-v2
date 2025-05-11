@@ -4,16 +4,16 @@
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   BRAND COLOR PALETTE - Base and Theme Variables
+   1) BRAND COLOR PALETTE - Base and Theme Variables
 -------------------------------------------------------------------------- */
 :root {
-  --color-primary: #1a47ff;     /* 🔵 Royal Blue - main brand color */
-  --color-accent:  #00ffc3;     /* 🌱 Electric Mint - call-to-action highlights */
-  --color-bg:      #0d0d0d;     /* ⚫ Main background (dark mode) */
-  --color-panel:   #181a1f;     /* 🧱 Panel/card base */
+  --color-primary: #1a47ff;     /* 🔵 Royal Blue */
+  --color-accent:  #00ffc3;     /* 🌱 Electric Mint */
+  --color-bg:      #0d0d0d;     /* ⚫ Dark‑mode background */
+  --color-panel:   #181a1f;     /* 🧱 Card/panel background */
   --color-text:    #f0f0f0;     /* 🤍 Default text */
-  --color-subtext: #aaaaaa;     /* 🌫️ Subtle secondary text */
-  --color-danger:  #ff4f4f;     /* 🔴 For errors/alerts */
+  --color-subtext: #aaaaaa;     /* 🌫️ Secondary text */
+  --color-danger:  #ff4f4f;     /* 🔴 Alerts / errors */
 }
 
 /* 🌞 Light Mode Overrides */
@@ -25,28 +25,10 @@
   --color-accent:  #007bff;
 }
 
-/* --------------------------------------------------------------------------
-   GLOBAL TEXT UTILITY CLASSES
-   -------------------------------------------------------------------------- */
-
-/* Keeps text white regardless of theme — ideal for dark canvas bg */
-.always-light-text {
-  color: #ffffff !important;
-}
-
-/* Keeps text dark regardless of theme — use over white panels */
-.always-dark-text {
-  color: #111111 !important;
-}
-
-/* Applies branded subtext tone */
-.always-subtext {
-  color: var(--color-subtext) !important;
-}
 
 /* --------------------------------------------------------------------------
-   GLOBAL BASE STYLES & TYPOGRAPHY
-   -------------------------------------------------------------------------- */
+   3) GLOBAL BASE STYLES & TYPOGRAPHY
+-------------------------------------------------------------------------- */
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
@@ -58,6 +40,7 @@ body {
 
 h1, h2, h3 {
   text-align: center;
+  margin: 0;
 }
 
 /* Layout container */
@@ -66,12 +49,23 @@ h1, h2, h3 {
   padding: 0 24px;
   margin: 0 auto;
   position: relative;
-  z-index: 2; /* Layer above canvas */
+  z-index: 2;
 }
 
 /* --------------------------------------------------------------------------
-   ANIMATED BACKGROUND LAYER – network.js
-   Shared across all sections
+   4) GLOBAL ICON SIZING
+   Ensures all <img class="icon-img"> are 48×48px and centered
+-------------------------------------------------------------------------- */
+.icon-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   5) ANIMATED BACKGROUND LAYER – network.js
 -------------------------------------------------------------------------- */
 #network-bg {
   position: fixed;
@@ -85,59 +79,113 @@ h1, h2, h3 {
 }
 
 /* --------------------------------------------------------------------------
-   HEADER + NAVIGATION
-   -------------------------------------------------------------------------- */
+   6) HEADER + NAVIGATION
+-------------------------------------------------------------------------- */
 .site-header {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  padding: 20px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  position: relative;
-  z-index: 3;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: var(--color-panel);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.75),
+    rgba(0,0,0,0.50)
+  );
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  z-index: 999;
 }
 
 .nav-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
 }
 
 .logo {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 700;
+  color: var(--color-primary);
+  margin: 0;
 }
 
 .main-nav a {
   margin-left: 20px;
   text-decoration: none;
-  color: var(--color-text);
   font-weight: 500;
+  color: var(--color-text);
   transition: color 0.3s ease;
 }
 
-.main-nav a:hover,
+.main-nav a:hover {
+  color: var(--color-accent);
+}
+
 .main-nav a.active {
   color: var(--color-accent);
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: 2px;
 }
 
 .theme-toggle {
-  background: transparent;
-  border: 2px solid var(--color-subtext);
-  color: var(--color-subtext);
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
   margin-left: 20px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: transparent;
+  border: 2px solid var(--color-text);
+  border-radius: 6px;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .theme-toggle:hover {
-  background-color: var(--color-panel);
-  color: var(--color-accent);
+  background: var(--color-accent);
+  color: #000;
+  border-color: var(--color-accent);
 }
 
 /* --------------------------------------------------------------------------
-   HERO SECTION
+   7) Light‑Mode Header Overrides
+-------------------------------------------------------------------------- */
+[data-theme='light'] .site-header {
+  background: var(--color-panel);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.9),
+    rgba(255,255,255,0.75)
+  );
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+[data-theme='light'] .logo {
+  color: var(--color-text);
+}
+
+[data-theme='light'] .main-nav a {
+  color: var(--color-text);
+}
+
+[data-theme='light'] .main-nav a.active {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+
+[data-theme='light'] .theme-toggle {
+  color: var(--color-text);
+  border-color: var(--color-text);
+}
+
+[data-theme='light'] .theme-toggle:hover {
+  background: var(--color-accent);
+  color: #000;
+  border-color: var(--color-accent);
+}
+
+/* --------------------------------------------------------------------------
+   8) HERO SECTION
 -------------------------------------------------------------------------- */
 .hero {
   position: relative;
@@ -160,7 +208,7 @@ h1, h2, h3 {
 }
 
 /* --------------------------------------------------------------------------
-   CTA BUTTONS (used across hero, CTA, services)
+   9) CTA BUTTONS (used across hero, CTA, services)
 -------------------------------------------------------------------------- */
 .cta-button,
 .cta-primary {
@@ -171,7 +219,7 @@ h1, h2, h3 {
   font-weight: 600;
   border-radius: 6px;
   display: inline-block;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .cta-button:hover,
@@ -180,7 +228,7 @@ h1, h2, h3 {
 }
 
 /* --------------------------------------------------------------------------
-   ABOUT SECTION
+   10) ABOUT SECTION
 -------------------------------------------------------------------------- */
 .about-section {
   padding: 100px 20px;
@@ -197,7 +245,7 @@ h1, h2, h3 {
 }
 
 /* --------------------------------------------------------------------------
-   SERVICES SECTION – Flip Card Grid
+   11) SERVICES SECTION – Flip Card Grid
 -------------------------------------------------------------------------- */
 .services-section {
   padding: 100px 20px;
@@ -254,6 +302,7 @@ h1, h2, h3 {
   color: var(--color-text);
 }
 
+/* Icon sizing inside flip cards */
 .flip-card-front .icon-img {
   width: 40px;
   height: 40px;
@@ -262,12 +311,12 @@ h1, h2, h3 {
 
 .flip-card-back {
   transform: rotateY(180deg);
-  background: #111; /* Strong contrast for back */
+  background: #111;
   color: #fff;
 }
 
 /* --------------------------------------------------------------------------
-   WHY METRIKCORP SECTION (same grid style as services)
+   12) WHY METRIKCORP SECTION
 -------------------------------------------------------------------------- */
 .why-metrik {
   padding: 100px 20px;
@@ -275,10 +324,24 @@ h1, h2, h3 {
   z-index: 2;
 }
 
-/* Reuse services-grid & service-card */
+/* New: grid for “Why MetrikCorp” cards */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+/* New: service-card styling (used in Services and Why sections) */
+.service-card {
+  background: var(--color-panel);
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
 
 /* --------------------------------------------------------------------------
-   CTA BANNER SECTION
+   13) CTA BANNER SECTION
 -------------------------------------------------------------------------- */
 .cta-banner {
   background: transparent;
@@ -294,22 +357,32 @@ h1, h2, h3 {
 }
 
 /* --------------------------------------------------------------------------
-   FOOTER STYLES
+   14) Footer Styles – theme‑aware, responsive to dark/light modes
 -------------------------------------------------------------------------- */
-footer {
-  background-color: var(--color-bg);
+.site-footer {
+  /* Use panel background from theme variables */
+  background-color: var(--color-panel);
+  /* Secondary text color by default */
   color: var(--color-subtext);
+  /* Centered text with comfortable padding */
   text-align: center;
-  padding: 40px 20px;
+  padding: 30px 20px;
   font-size: 0.9rem;
+  /* Thin top border for separation */
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  z-index: 3;
   position: relative;
+  z-index: 3;
 }
 
-/* Light mode override for footer */
-[data-theme='light'] footer {
-  background-color: #ffffff;
-  color: #333333;
-  border-top: 1px solid #cccccc;
+/* --------------------------------------------------------------------------
+   Light‑Mode Footer Overrides
+   Ensures footer flips to light‑theme colors when [data-theme='light'] is active
+-------------------------------------------------------------------------- */
+[data-theme='light'] .site-footer {
+  /* Match the light‑mode panel background */
+  background-color: var(--color-panel);
+  /* Primary text color in light mode (dark text) */
+  color: var(--color-text);
+  /* Use lighter subtext variable for the border */
+  border-top: 1px solid var(--color-subtext);
 }
