@@ -1,12 +1,13 @@
 // File: src/pages/Home.jsx
 // ============================================================================
-// Home.jsx – Homepage with enhanced scroll animations (GSAP + ScrollTrigger)
+// Home.jsx – Homepage with enhanced scroll animations, SEO meta tags, and JSON‑LD
 // – React‑Feather SVG icons
 // – Full hero/about/services/why/CTA sections
 // – Responsive from mobile to 8K
 // ============================================================================
 
 import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
@@ -26,7 +27,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   // ────────────────────────────────────────────────────────────────────────────
-  // Inject the network.js canvas background
+  // Inject network.js canvas background
   // ────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     const script = document.createElement('script');
@@ -37,47 +38,48 @@ export default function Home() {
   }, []);
 
   // ────────────────────────────────────────────────────────────────────────────
-  // Enhanced scroll animations for headings, text and cards
+  // Scroll animations with instant‑reveal fallback
   // ────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
-    // Animate section titles & text blocks
-    gsap.utils.toArray('.section-title, .section-text').forEach((el) => {
-      gsap.from(el, {
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 80%',         // when top of el hits 80% viewport
-          end: 'bottom 20%',
-          toggleActions: 'play reverse play reverse',
-        },
-        opacity: 0,
-        y: 40,
-        scale: 0.98,
-        duration: 0.8,
-        ease: 'power3.out',
-      });
-    });
+    // Collect all animated elements
+    const els = Array.from(
+      document.querySelectorAll(
+        '.section-title, .section-text, .service-card, .why-card'
+      )
+    );
 
-    // Animate each service & why‑card individually
-    gsap.utils.toArray('.service-card, .why-card').forEach((el, i) => {
-      gsap.from(el, {
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 90%',
-          end: 'bottom 10%',
-          toggleActions: 'play reverse play reverse',
-        },
-        opacity: 0,
-        y: 60,
-        scale: 0.95,
-        duration: 0.7,
-        ease: 'back.out(1.3)',
-        delay: i * 0.1,             // stagger even on fast scroll
+    if (document.documentElement.scrollHeight <= window.innerHeight) {
+      // No scrollbar: reveal everything instantly
+      gsap.set(els, { opacity: 1, y: 0, scale: 1 });
+    } else {
+      // Otherwise, animate on scroll
+      els.forEach((el, i) => {
+        const isCard = el.classList.contains('service-card') || el.classList.contains('why-card');
+        gsap.from(el, {
+          scrollTrigger: {
+            trigger: el,
+            start: isCard ? 'top 90%' : 'top 80%',
+            end: isCard ? 'bottom 10%' : 'bottom 20%',
+            toggleActions: 'play reverse play reverse',
+          },
+          opacity: 0,
+          y: isCard ? 60 : 40,
+          scale: isCard ? 0.95 : 0.98,
+          duration: isCard ? 0.7 : 0.8,
+          ease: isCard ? 'back.out(1.3)' : 'power3.out',
+          delay: isCard ? i * 0.1 : 0,
+        });
       });
-    });
+    }
+
+    // Refresh triggers on resize/orientation change
+    const onResize = () => ScrollTrigger.refresh();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
   // ────────────────────────────────────────────────────────────────────────────
-  // Services (with React‑Feather SVG icons)
+  // Services (React‑Feather SVG icons)
   // ────────────────────────────────────────────────────────────────────────────
   const services = [
     { Icon: Mail,      title: 'Professional Email & DNS',    description: 'Setup and manage SPF/DKIM/DMARC, custom mail servers or G Suite—so you always reach the inbox.' },
@@ -100,6 +102,36 @@ export default function Home() {
 
   return (
     <>
+      {/* ─────────────────────────────────────────────────────────────────────── */}
+      {/* SEO META & STRUCTURED DATA */}
+      {/* ─────────────────────────────────────────────────────────────────────── */}
+      <Helmet>
+        <title>Start Your Online Journey Today | MetrikCorp</title>
+        <meta
+          name="description"
+          content="MetrikCorp helps busy businesses launch, maintain, and secure their entire online presence—websites, email, hosting, monitoring, and security."
+        />
+        <link rel="canonical" href="https://metrikcorp.com/" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "MetrikCorp",
+            url: "https://metrikcorp.com",
+            logo: "https://metrikcorp.com/favicon.ico",
+            description:
+              "MetrikCorp helps busy businesses launch, maintain, and secure their entire online presence—websites, email, hosting, monitoring, and security.",
+            contactPoint: [
+              {
+                "@type": "ContactPoint",
+                email: "support@metrikcorp.com",
+                contactType: "Customer Service",
+              },
+            ],
+          })}
+        </script>
+      </Helmet>
+
       {/* ─────────────────────────────────────────────────────────────────────── */}
       {/* HERO */}
       {/* ─────────────────────────────────────────────────────────────────────── */}

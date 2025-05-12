@@ -1,19 +1,21 @@
 # MetrikCorp Website – Developer Notes & Structure Guide
 
-> A modern, interactive React/Vite site for MetrikCorp, featuring scroll‑triggered animations, dynamic theme support, and a real‑time canvas background.
+> A modern, interactive React/Vite site for MetrikCorp, featuring scroll‑triggered animations, dynamic theme support, a real‑time canvas background, SVG iconography, and a hidden Easter‑egg.
 
 ---
 
 ## 🚀 Project Overview
 
-MetrikCorp‑v2 is the completely rebuilt homepage and core layout for MetrikCorp’s web presence. Key features include:
+**MetrikCorp‑v2** is the completely rebuilt homepage and core layout for MetrikCorp’s web presence. Key features include:
 
-- **React + Vite** for instant HMR and fast production builds  
-- **GSAP + ScrollTrigger** for scroll‑based entrance animations  
-- **Light/Dark theme toggle** powered by CSS variables  
-- **Canvas network background** (`network.js`) for live service‑status effect  
-- **Reusable components**: `<Header />`, `<Footer />`, `<Home />`  
-- **Responsive design** via CSS Grid, Flexbox, and mobile‑first breakpoints  
+- **React 18 + Vite** for instant HMR and lightning‑fast production builds  
+- **GSAP + ScrollTrigger** with fallback “instant‑reveal” logic for both scrollable and non‑scroll contexts  
+- **SVG line‑icons** (via React‑Feather) for crisp, themable graphics  
+- **Light/Dark theme toggle** powered by CSS variables and persisted in localStorage  
+- **Canvas network background** (`network.js`) with interactive mouse‑responsive glow  
+- **Responsive design**: mobile‑first, fluid typography, breakpoints up to 8K displays  
+- **Easter‑egg modal**: click the logo to reveal `/public/hello.html` directly injected  
+- **SEO & metadata**: `<Helmet>` support for title, meta tags, and JSON‑LD structured data  
 - **Containerized deployment** with Docker & Docker Compose  
 
 ---
@@ -23,7 +25,9 @@ MetrikCorp‑v2 is the completely rebuilt homepage and core layout for MetrikCor
 - **React 18** (functional components & hooks)  
 - **Vite** (dev server & build tooling)  
 - **GSAP + ScrollTrigger** (animations)  
+- **react‑feather** (SVG icons)  
 - **react‑router‑dom** (client‑side routing)  
+- **react‑helmet** (SEO metadata & structured data)  
 - **Docker & Docker Compose** (production container)  
 - **CSS Variables**, **Poppins** font, and **modern CSS**  
 
@@ -31,179 +35,94 @@ MetrikCorp‑v2 is the completely rebuilt homepage and core layout for MetrikCor
 
 ## 📁 Project Structure
 
-```
+```text
 metrikcorp.com-v2/
 ├── public/
 │   ├── assets/
-│   │   ├── bg/
-│   │   │   ├── hero.jpg
-│   │   │   ├── about.jpg
-│   │   │   └── cta.jpg
-│   │   └── icons/
-│   │       ├── web.png
-│   │       ├── server.png
-│   │       ├── launch.png
-│   │       ├── seo.png
-│   │       ├── shield.png
-│   │       ├── mail.png
-│   │       ├── expert.png
-│   │       ├── stack.png
-│   │       └── growth.png
-│   └── network.js
+│   │   ├── bg/            # Hero, About, CTA backgrounds
+│   │   └── icons/         # Legacy PNG icons (unused)
+│   ├── favicon-transparent.png
+│   ├── hello.html         # Easter‑egg page
+│   └── network.js         # Canvas background script
 ├── src/
 │   ├── components/
-│   │   ├── Header.jsx      # Sticky, theme‑aware header
-│   │   └── Footer.jsx      # Theme‑aware footer
+│   │   ├── Header.jsx     # Sticky header + mobile nav + theme toggle + Easter‑egg
+│   │   └── Footer.jsx     # Theme‑aware footer
 │   ├── pages/
-│   │   └── Home.jsx        # Fully‑commented homepage with GSAP animations
-│   ├── style.css           # Global CSS variables, utilities, section layouts
-│   └── theme.js            # Light/dark toggle logic
-├── docker-compose.yml      # Docker Compose service definitions
-├── Dockerfile              # Production container build
-└── README.md               # This file
-```
+│   │   ├── Home.jsx       # Animated homepage with GSAP & React‑Feather
+│   │   ├── About.jsx      # About page with batch scroll animations & SEO tags
+│   │   ├── Services.jsx   # Services listing
+│   │   ├── Projects.jsx   # Projects placeholder
+│   │   └── Contact.jsx    # Contact info
+│   ├── style.css          # Global CSS vars, layout, Easter‑egg modal
+│   ├── theme.js           # Light/dark mode logic
+│   ├── seo.js             # Helmet defaults & JSON‑LD
+│   └── main.jsx           # App entry point & routing
+├── docker-compose.yml     # Docker Compose definitions
+├── Dockerfile             # Production container build
+└── README.md              # This file
 
----
-
-## 🎨 Branding & Visual Identity
-
-### Primary Brand Colors (in `style.css`)
-```css
+🎨 Branding & Visual Identity
+Primary Brand Colors (style.css)
 :root {
   --color-primary: #1a47ff;   /* Royal Blue */
   --color-accent:  #00ffc3;   /* Electric Mint */
-  --color-bg:      #0d0d0d;   /* Deep Charcoal */
-  --color-panel:   #181a1f;   /* Panel/Card background */
-  --color-text:    #f0f0f0;   /* Light content */
-  --color-subtext: #aaaaaa;   /* Muted secondary text */
+  --color-bg:      #0d0d0d;   /* Dark background */
+  --color-panel:   #181a1f;   /* Panel background */
+  --color-text:    #f0f0f0;   /* Light text */
+  --color-subtext: #aaaaaa;   /* Muted text */
 }
-```
 
-### Background Images
+SVG Iconography
+Migrated all PNGs to React‑Feather SVG icons
 
-All hero, about and CTA backgrounds live in:
-```
-/public/assets/bg/
-├── hero.jpg
-├── about.jpg
-└── cta.jpg
-```
+Themed via stroke: var(--color-accent) and sized with .icon-svg
 
-### Icon Assets (PNG)
+⚙️ Getting Started
+git clone https://github.com/metrik420/metrikcorp-v2.git
+cd metrikcorp-v2
+npm install
+npm run dev      # http://localhost:5173
+npm run build
+npm run preview
 
-All branded, transparent PNG icons sized for 38–64 px display:
-```
-/public/assets/icons/
-├── web.png
-├── server.png
-├── launch.png
-├── seo.png
-├── shield.png
-├── mail.png
-├── expert.png
-├── stack.png
-└── growth.png
-```
+🐳 Docker Deployment
+docker-compose up --build -d
+docker-compose logs -f
+docker-compose down
 
----
+Development Tips
+Content: Edit src/pages/*.jsx; use .section-title, .service-card, .why-card.
 
-## ⚙️ Getting Started
+Icons: Import from react-feather instead of PNG.
 
-1. **Clone the repository**  
-   ```bash
-   git clone https://github.com/metrik420/metrikcorp-v2.git
-   cd metrikcorp-v2
-   ```
+Animations: Adjust GSAP ScrollTrigger settings in useEffect.
 
-2. **Install dependencies**  
-   ```bash
-   npm install
-   ```
+SEO: Configure per‑page meta & JSON‑LD in src/seo.js with react-helmet.
 
-3. **Run in development mode**  
-   ```bash
-   npm run dev
-   ```
-   Opens at `http://localhost:5173` with hot reloading.
+Easter‑egg: Click the “MetrikCorp” logo to load hello.html in a modal.
 
-4. **Build for production**  
-   ```bash
-   npm run build
-   npm run preview
-   ```
+📝 Recent Changes
+SVG Icon Migration
 
----
+Easter‑egg Modal
 
-## 🐳 Docker Deployment
+Improved Responsiveness & Accessibility
 
-1. **Build & launch containers**  
-   ```bash
-   docker-compose up --build -d
-   ```
-2. **View logs**  
-   ```bash
-   docker-compose logs -f
-   ```
-3. **Shut down**  
-   ```bash
-   docker-compose down
-   ```
+Enhanced Scroll Animations
 
----
+SEO & Structured Data Integration
 
-## 🔧 Development Tips
+Detailed Code Comments Throughout
 
-- **Editing content**  
-  - Modify `src/pages/Home.jsx` for homepage text, images, and arrays of services/values.  
-  - Each section is clearly marked with comments and mapped from simple data arrays.
+🔍 Future Enhancements
+Blog/Case Studies pages
 
-- **Updating icons**  
-  1. Place your new PNG in `/public/assets/icons/`.  
-  2. Update the filename in the `services` or `values` arrays in `Home.jsx`.
+Headless CMS integration
 
-- **Animations**  
-  - All headings (`.section-title`), service cards (`.service-card`), and why‑cards (`.why-card`) animate on scroll via GSAP + ScrollTrigger.  
-  - Customize timings in the `useEffect` hook within `Home.jsx`.
+Analytics & error‑tracking hooks
 
-- **Rebuilding**  
-  After any code or asset changes, rebuild and redeploy:
-  ```bash
-  cd /home/metrik/docker/sites/metrikcorp.com-v2
-  docker-compose down
-  docker-compose up --build -d
-  ```
+Advanced accessibility (ARIA, keyboard nav)
 
----
-
-## 📝 Recent Changes
-
-- **Header & Footer**  
-  - Converted inline styles to CSS classes  
-  - Made header sticky with glass‑morphism and theme‑aware variables  
-  - Footer now responds to both dark and light modes
-
-- **Homepage (`Home.jsx`)**  
-  - Added detailed inline comments and JSDoc  
-  - Refactored GSAP animations to target arrays of elements  
-  - Standardized icon sizing via global `.icon-img` class  
-  - Clean script injection for `network.js`
-
-- **Global Styles (`style.css`)**  
-  - Expanded CSS variable palette  
-  - Added light‑mode overrides for header, footer, and text  
-  - Consolidated section layouts, grid utilities, and text utilities
-
----
-
-## 🔍 Future Enhancements
-
-- Split Services, Blog, and Contact into dedicated pages  
-- Integrate a headless CMS or Markdown‑driven content  
-- Add analytics/performance hooks (e.g., Google Analytics, Lighthouse)  
-- Improve accessibility with ARIA roles and keyboard navigation  
-
----
-
-Maintained by: **MetrikCorp**  
-Website: [https://metrikcorp.com](https://metrikcorp.com)  
-Version: `v2` – Rebuilt May 2025  
+Maintained by MetrikCorp • https://metrikcorp.com
+Version: v2 – Rebuilt May 2025

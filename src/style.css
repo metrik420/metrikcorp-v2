@@ -1,11 +1,19 @@
-/* ==========================================================================
+/* ========================================================================== 
    MetrikCorp Global Stylesheet
-   Responsive, mobile‑first, fluid typography, sticky footer, and canvas bg
+   • Responsive, mobile‑first
+   • Fluid typography
+   • Sticky footer
+   • Canvas background
+   • Theme variables
+   • Navigation (desktop + mobile)
+   • Easter‑egg modal
+   • Logo polish and version display
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   0) RESET & BOX-SIZING
--------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- 
+   0) RESET & BOX‑SIZING
+   Ensures consistent sizing and removes default margins/padding.
+   -------------------------------------------------------------------------- */
 *,
 *::before,
 *::after {
@@ -14,40 +22,43 @@
   padding: 0;
 }
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    1) PREVENT HORIZONTAL SCROLL
--------------------------------------------------------------------------- */
+   Locks overflow-x to avoid sideways scrolling.
+   -------------------------------------------------------------------------- */
 html, body {
   overflow-x: hidden;
   height: 100%;
-  scroll-behavior: smooth;
+  scroll-behavior: smooth; /* smooth anchor jumps */
 }
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    2) STICKY FOOTER LAYOUT
--------------------------------------------------------------------------- */
-#root, .app-wrapper {
+   Flex container to push footer to bottom of viewport.
+   -------------------------------------------------------------------------- */
+#root,
+.app-wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 .main-content {
-  flex: 1;
+  flex: 1; /* fill available space */
 }
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    3) BRAND PALETTE & THEMING
--------------------------------------------------------------------------- */
+   CSS variables for dark/light mode.
+   -------------------------------------------------------------------------- */
 :root {
-  --color-primary:  #1a47ff;
-  --color-accent:   #00ffc3;
-  --color-bg:       #0d0d0d;
-  --color-panel:    #181a1f;
-  --color-text:     #f0f0f0;
-  --color-subtext:  #aaaaaa;
-  --color-danger:   #ff4f4f;
+  --color-primary:  #1a47ff;  /* Royal Blue */
+  --color-accent:   #00ffc3;  /* Electric Mint */
+  --color-bg:       #0d0d0d;  /* Dark background */
+  --color-panel:    #181a1f;  /* Panel/card background */
+  --color-text:     #f0f0f0;  /* Main text */
+  --color-subtext:  #aaaaaa;  /* Secondary text */
+  --color-danger:   #ff4f4f;  /* Errors / alerts */
 }
-
 [data-theme='light'] {
   --color-bg:      #f8f9fa;
   --color-panel:   #ffffff;
@@ -56,9 +67,10 @@ html, body {
   --color-accent:  #007bff;
 }
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    4) GLOBAL BASE & FLUID TYPOGRAPHY
--------------------------------------------------------------------------- */
+   Sets base font, fluid heading sizes, and paragraph spacing.
+   -------------------------------------------------------------------------- */
 body {
   font-family: 'Poppins', sans-serif;
   background: var(--color-bg);
@@ -77,22 +89,23 @@ p, li {
   margin-bottom: 1rem;
 }
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    5) CONTAINER
--------------------------------------------------------------------------- */
+   Centers content and limits width.
+   -------------------------------------------------------------------------- */
 .container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 12px; /* tightened padding */
+  padding: 0 12px;
   position: relative;
   z-index: 2;
 }
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    6) ICON SIZING
--------------------------------------------------------------------------- */
-/* SVG line‑icons */
+   Uniform sizing for SVG line‑icons via React‑Feather.
+   -------------------------------------------------------------------------- */
 .icon-svg {
   display: block;
   width: 48px;
@@ -101,9 +114,10 @@ p, li {
   stroke: var(--color-accent);
 }
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    7) HEADER & NAVIGATION
--------------------------------------------------------------------------- */
+   Sticky header, backdrop blur, desktop and theme toggle.
+   -------------------------------------------------------------------------- */
 .site-header {
   position: sticky;
   top: 0;
@@ -116,31 +130,59 @@ p, li {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;          /* allow wrapping on narrow screens */
+  flex-wrap: wrap; /* wrap on narrow screens */
   padding: 0.5rem 12px;
 }
+
+/* Logo polish */
 .logo {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--color-primary);
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.8rem;              /* slightly larger for emphasis */
+  font-weight: 700;               /* bold */
+  color: var(--color-primary);    /* brand blue */
+  letter-spacing: 0.5px;          /* modern feel */
+  display: inline-block;          /* allow transform */
+  transition: transform 0.2s ease;/* subtle hover effect */
   margin-bottom: 0.5rem;
 }
-.main-nav {
-  display: none; /* hidden on mobile, shown on desktop */
+.logo:hover {
+  transform: scale(1.05);         /* gentle zoom on hover */
 }
+
+/* Easter‑egg trigger “k” now visually identical */
+.egg-trigger {
+  cursor: pointer;      /* show pointer on hover */
+  color: inherit;       /* match surrounding text */
+  text-decoration: none;/* remove underline */
+}
+.egg-trigger:hover {
+  opacity: 0.8;         /* subtle feedback on hover */
+}
+
+.main-nav {
+  display: none;        /* shown via media query on desktop */
+}
+.theme-toggle,
 .nav-toggle {
-  display: block;
   background: none;
   border: none;
+  cursor: pointer;
+}
+.theme-toggle {
+  color: var(--color-text);
+  font-size: 0.9rem;
+  margin-left: 1rem;
+}
+.nav-toggle {
   font-size: 1.75rem;
   color: var(--color-text);
-  cursor: pointer;
   z-index: 1000;
 }
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    8) MOBILE NAV MENU (slide‑down)
--------------------------------------------------------------------------- */
+   Hidden by default, toggled via JS class "open".
+   -------------------------------------------------------------------------- */
 .mobile-nav {
   display: none;
   flex-direction: column;
@@ -155,17 +197,18 @@ p, li {
 }
 .mobile-nav a {
   padding: 0.75rem 12px;
-  text-decoration: none;
   color: var(--color-text);
+  text-decoration: none;
   border-bottom: 1px solid var(--color-subtext);
 }
 .mobile-nav a:last-child {
   border-bottom: none;
 }
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    9) ANIMATED BACKGROUND LAYER – network.js
--------------------------------------------------------------------------- */
+   Full‑screen canvas with low opacity.
+   -------------------------------------------------------------------------- */
 #network-bg {
   position: fixed;
   top: 0;
@@ -177,9 +220,10 @@ p, li {
   z-index: 0;
 }
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    10) HERO SECTION
--------------------------------------------------------------------------- */
+   Large padding, centered text.
+   -------------------------------------------------------------------------- */
 .hero {
   position: relative;
   text-align: center;
@@ -190,16 +234,13 @@ p, li {
   max-width: 600px;
   margin: 0 auto;
 }
-.hero h1 {
-  margin-bottom: 1rem;
-}
-.hero p {
-  margin-bottom: 1.5rem;
-}
+.hero h1 { margin-bottom: 1rem; }
+.hero p  { margin-bottom: 1.5rem; }
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    11) CTA BUTTONS
--------------------------------------------------------------------------- */
+   High‑contrast accent buttons.
+   -------------------------------------------------------------------------- */
 .cta-button,
 .cta-primary {
   background: var(--color-accent);
@@ -215,9 +256,10 @@ p, li {
   background: #00ddb0;
 }
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    12) ABOUT SECTION
--------------------------------------------------------------------------- */
+   Padding and text width constraints.
+   -------------------------------------------------------------------------- */
 .about-section {
   padding: clamp(40px, 8vw, 80px) 12px;
 }
@@ -226,9 +268,10 @@ p, li {
   margin: 0 auto 1rem;
 }
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    13) SERVICES & WHY GRID SECTIONS
--------------------------------------------------------------------------- */
+   Responsive grid from 1‑ to 4‑columns.
+   -------------------------------------------------------------------------- */
 .section-title {
   margin-bottom: clamp(20px, 4vw, 40px);
 }
@@ -237,10 +280,8 @@ p, li {
   display: grid;
   gap: 12px;
 }
-/* 1‑col mobile */
 .services-grid { grid-template-columns: 1fr; }
 .why-grid     { grid-template-columns: 1fr; }
-/* 2‑up @600px */
 @media (min-width: 600px) {
   .services-grid,
   .why-grid {
@@ -248,14 +289,12 @@ p, li {
     gap: 16px;
   }
 }
-/* 3‑up @900px */
 @media (min-width: 900px) {
   .services-grid,
   .why-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-/* 4‑up @1200px */
 @media (min-width: 1200px) {
   .services-grid,
   .why-grid {
@@ -269,9 +308,10 @@ p, li {
   text-align: center;
 }
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    14) CTA BANNER
--------------------------------------------------------------------------- */
+   Centered minimal banner.
+   -------------------------------------------------------------------------- */
 .cta-banner {
   padding: clamp(40px, 8vw, 80px) 12px;
   text-align: center;
@@ -280,9 +320,10 @@ p, li {
   margin-bottom: 1rem;
 }
 
-/* --------------------------------------------------------------------------
-   15) FOOTER
--------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- 
+   15) FOOTER & VERSION
+   Theme‑aware footer with version display.
+   -------------------------------------------------------------------------- */
 .site-footer {
   background: var(--color-panel);
   color: var(--color-subtext);
@@ -291,11 +332,17 @@ p, li {
   font-size: 0.875rem;
   border-top: 1px solid var(--color-subtext);
 }
+/* place this class on a <div> or <p> inside the Footer component */
+.footer-version {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--color-subtext);
+}
 
-/* --------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- 
    16) BREAKPOINTS: NAV & LAYOUT
--------------------------------------------------------------------------- */
-/* Desktop ≥768px: show .main-nav, hide mobile toggles */
+   Desktop nav & utility tweaks.
+   -------------------------------------------------------------------------- */
 @media (min-width: 768px) {
   .nav-toggle,
   .mobile-nav {
@@ -306,13 +353,13 @@ p, li {
   }
   .main-nav a {
     margin-left: 1rem;
-    text-decoration: none;
     color: var(--color-text);
+    text-decoration: none;
     font-weight: 500;
   }
 }
 
-/* Portrait vs Landscape on small screens */
+/* Portrait vs. landscape small‑screen tweaks */
 @media (orientation: portrait) and (max-width: 600px) {
   .hero {
     padding-top: 80px;
@@ -330,3 +377,41 @@ p, li {
     font-size: 1.5rem;
   }
 }
+
+/* -------------------------------------------------------------------------- 
+   17) EASTER‑EGG MODAL
+   Full‑screen modal styling for inline content.
+   -------------------------------------------------------------------------- */
+.easter-egg-modal {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg);
+  overflow-y: auto;
+  z-index: 2000;
+  padding: 2rem;
+  color: var(--color-text);
+}
+.easter-egg-content {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--color-panel);
+  padding: 1.5rem;
+  border-radius: 6px;
+}
+.easter-egg-modal .close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: none;
+  font-size: 1.8rem;
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  z-index: 2001;
+}
+
+/* ========================================================================== 
+   End of stylesheet – fully commented for future maintenance & upgrades
+   ========================================================================== */
