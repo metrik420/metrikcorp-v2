@@ -1,13 +1,19 @@
-// File: src/pages/Home.jsx
-// ============================================================================
-// Home.jsx – Homepage with enhanced scroll animations, SEO meta tags, and JSON‑LD
-// – React‑Feather SVG icons
-// – Full hero/about/services/why/CTA sections
-// – Responsive from mobile to 8K
-// ============================================================================
+// =============================================================================
+// src/pages/Home.jsx
+// Homepage content for MetrikCorp
+// • DefaultSEO for meta tags & JSON‑LD via react‑helmet
+// • Site‑wide <Header /> and <Footer />
+// • Canvas background injection (network.js)
+// • Instant‑reveal fallback for non‑scrollable views
+// • GSAP + ScrollTrigger scroll animations
+// • React‑Feather SVG icons (.icon-svg styled in style.css)
+// • Fully responsive from mobile → 8K
+// =============================================================================
 
 import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
+import { DefaultSEO } from '../seo.jsx';              // SEO & structured data
+import Header from '../components/Header';            // Sticky, theme‑aware header
+import Footer from '../components/Footer';            // Theme‑aware footer
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
@@ -18,30 +24,25 @@ import {
   Server,
   BarChart2,
   UserCheck,
-  Cpu,
   Globe,
-  TrendingUp
+  Cpu,
+  TrendingUp,
 } from 'react-feather';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  // ────────────────────────────────────────────────────────────────────────────
-  // Inject network.js canvas background
-  // ────────────────────────────────────────────────────────────────────────────
+  // 1) Inject network.js canvas background script
   useEffect(() => {
     const script = document.createElement('script');
     script.src = '/network.js';
-    script.async = true;
+    script.defer = true;
     document.body.appendChild(script);
-    return () => document.body.removeChild(script);
+    return () => void document.body.removeChild(script);
   }, []);
 
-  // ────────────────────────────────────────────────────────────────────────────
-  // Scroll animations with instant‑reveal fallback
-  // ────────────────────────────────────────────────────────────────────────────
+  // 2) Scroll animations with instant‑reveal fallback
   useEffect(() => {
-    // Collect all animated elements
     const els = Array.from(
       document.querySelectorAll(
         '.section-title, .section-text, .service-card, .why-card'
@@ -49,12 +50,14 @@ export default function Home() {
     );
 
     if (document.documentElement.scrollHeight <= window.innerHeight) {
-      // No scrollbar: reveal everything instantly
+      // No scrollbar → reveal all immediately
       gsap.set(els, { opacity: 1, y: 0, scale: 1 });
     } else {
-      // Otherwise, animate on scroll
+      // Animate each element on scroll
       els.forEach((el, i) => {
-        const isCard = el.classList.contains('service-card') || el.classList.contains('why-card');
+        const isCard =
+          el.classList.contains('service-card') ||
+          el.classList.contains('why-card');
         gsap.from(el, {
           scrollTrigger: {
             trigger: el,
@@ -72,76 +75,101 @@ export default function Home() {
       });
     }
 
-    // Refresh triggers on resize/orientation change
-    const onResize = () => ScrollTrigger.refresh();
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    window.addEventListener('resize', ScrollTrigger.refresh);
+    return () => window.removeEventListener('resize', ScrollTrigger.refresh);
   }, []);
 
-  // ────────────────────────────────────────────────────────────────────────────
-  // Services (React‑Feather SVG icons)
-  // ────────────────────────────────────────────────────────────────────────────
+  // 3) Data arrays for Services & “Why MetrikCorp?” sections
   const services = [
-    { Icon: Mail,      title: 'Professional Email & DNS',    description: 'Setup and manage SPF/DKIM/DMARC, custom mail servers or G Suite—so you always reach the inbox.' },
-    { Icon: Code,      title: 'Custom Website Development',  description: 'Fast, SEO‑friendly sites built on React, WordPress or PHP—tailored to your brand and goals.' },
-    { Icon: Monitor,   title: '24/7 Uptime Monitoring',      description: 'Continuous checks, alerts & on‑call fixes—keeping your site live around the clock.' },
-    { Icon: Shield,    title: 'Security & Malware Cleanup',  description: 'Regular audits, patching, firewall hardening, and malware removal to lock down your infrastructure.' },
-    { Icon: Server,    title: 'Hosting & Server Management', description: 'From shared hosting to Docker/Kubernetes clusters—optimized for speed, scale and cost.' },
-    { Icon: BarChart2, title: 'Growth & Scaling Strategy',   description: 'Advice on performance tuning, CDN, caching, and next‑level infrastructure to support your growth.' },
+    {
+      Icon: Mail,
+      title: 'Professional Email & DNS',
+      description:
+        'Setup/manage SPF, DKIM, DMARC; custom mail servers or G Suite—reach the inbox.',
+    },
+    {
+      Icon: Code,
+      title: 'Custom Website Development',
+      description:
+        'Fast, SEO‑friendly sites with React, WordPress or PHP—tailored to your brand.',
+    },
+    {
+      Icon: Monitor,
+      title: '24/7 Uptime Monitoring',
+      description:
+        'Continuous checks, alerts & on‑call fixes—keeping you live around the clock.',
+    },
+    {
+      Icon: Shield,
+      title: 'Security & Malware Cleanup',
+      description:
+        'Regular audits, patching, firewalls & malware removal to lock down your stack.',
+    },
+    {
+      Icon: Server,
+      title: 'Hosting & Server Advisory',
+      // **UPDATED COPY**: you don’t self‑host— you guide and manage
+      description:
+        'We help you choose and configure the ideal hosting provider, take over existing accounts, or set up your own servers via remote access.',
+    },
+    {
+      Icon: BarChart2,
+      title: 'Growth & Scaling Strategy',
+      description:
+        'Advice on performance tuning, CDN, caching & next‑level infra.',
+    },
   ];
 
-  // ────────────────────────────────────────────────────────────────────────────
-  // Why choose MetrikCorp?
-  // ────────────────────────────────────────────────────────────────────────────
   const values = [
-    { Icon: UserCheck, title: 'Hands‑On Expert Support', description: 'Work directly with a senior full‑stack and Linux pro—no account managers in between.' },
-    { Icon: Globe,     title: 'All‑In‑One Partner',        description: 'Email, web, servers, security and scaling—everything under one roof for total peace of mind.' },
-    { Icon: Cpu,       title: 'Always Up & Secure',        description: '24/7 monitoring, automatic updates, and proactive hardening to prevent downtime and hacks.' },
-    { Icon: TrendingUp,title: 'Built to Scale',            description: 'From mom‑and‑pop shops to high‑traffic platforms—we design systems that grow with you.' },
+    {
+      Icon: UserCheck,
+      title: 'Hands‑On Expert Support',
+      description:
+        'Work directly with a senior full‑stack/Linux pro—no account managers.',
+    },
+    {
+      Icon: Globe,
+      title: 'All‑In‑One Partner',
+      // **UPDATED COPY**: one expert coordinating their existing or new services
+      description:
+        'From selecting your hosting partner to ongoing web, email, security & scaling operations—everything orchestrated under one expert.',
+    },
+    {
+      Icon: Cpu,
+      title: 'Always Up & Secure',
+      description:
+        '24/7 monitoring, auto‑updates & proactive hardening.',
+    },
+    {
+      Icon: TrendingUp,
+      title: 'Built to Scale',
+      description:
+        'From mom‑and‑pop shops to high‑traffic platforms—we grow with you.',
+    },
   ];
 
   return (
     <>
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* SEO META & STRUCTURED DATA */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      <Helmet>
-        <title>Start Your Online Journey Today | MetrikCorp</title>
-        <meta
-          name="description"
-          content="MetrikCorp helps busy businesses launch, maintain, and secure their entire online presence—websites, email, hosting, monitoring, and security."
-        />
-        <link rel="canonical" href="https://metrikcorp.com/" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "MetrikCorp",
-            url: "https://metrikcorp.com",
-            logo: "https://metrikcorp.com/favicon.ico",
-            description:
-              "MetrikCorp helps busy businesses launch, maintain, and secure their entire online presence—websites, email, hosting, monitoring, and security.",
-            contactPoint: [
-              {
-                "@type": "ContactPoint",
-                email: "support@metrikcorp.com",
-                contactType: "Customer Service",
-              },
-            ],
-          })}
-        </script>
-      </Helmet>
+      {/* 4) SEO META & JSON‑LD via DefaultSEO */}
+      <DefaultSEO
+        title="Start Your Online Journey Today | MetrikCorp"
+        description="MetrikCorp helps busy businesses launch, maintain, and secure their online presence—websites, email, hosting advice, monitoring, and security."
+        url="https://metrikcorp.com/"
+        image="https://metrikcorp.com/assets/og-image.jpg"
+      />
 
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* HERO */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
+      {/* 5) SITE HEADER */}
+      <Header />
+
+      {/* 6) HERO SECTION */}
       <section className="hero">
         <canvas id="network-bg" />
         <div className="hero-text container">
           <h1 className="section-title">Start Your Online Journey Today!</h1>
           <p className="section-text">
-            We help busy businesses launch, maintain and secure their entire online presence—websites, email,
-            hosting, monitoring and security—so you can focus on running your business.
+            We help busy businesses launch, maintain and secure their entire
+            online presence—websites, email, hosting advice, monitoring and
+            security—so you can focus on running your business.
           </p>
           <a className="cta-button" href="/contact">
             Schedule Your Free Consultation
@@ -149,26 +177,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* ABOUT */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
+      {/* 7) ABOUT SECTION */}
       <section className="about-section container">
         <h2 className="section-title">Who We Are</h2>
         <p className="section-text">
-          MetrikCorp is a one‑person digital engineering studio led by a senior Linux administrator and full‑stack
-          web developer. We specialize in professional email, custom websites, hosting, security, and 24/7 monitoring—so you never worry about the tech.
+          MetrikCorp is a one‑person digital engineering studio led by a senior
+          Linux administrator and full‑stack developer. We specialize in
+          professional email, custom websites, hosting advisory, security, and
+          24/7 monitoring—so you never worry about the tech.
         </p>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* SERVICES */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
+      {/* 8) SERVICES SECTION */}
       <section className="services-section container">
         <h2 className="section-title">Our Services</h2>
         <div className="services-grid">
           {services.map(({ Icon, title, description }, idx) => (
             <div className="service-card" key={idx}>
-              <Icon className="icon-svg" />
+              <Icon className="icon-svg" aria-hidden="true" />
               <h3>{title}</h3>
               <p>{description}</p>
             </div>
@@ -176,15 +202,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* WHY US */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
+      {/* 9) WHY METRIKCORP SECTION */}
       <section className="why-metrik container">
         <h2 className="section-title">Why MetrikCorp?</h2>
         <div className="why-grid">
           {values.map(({ Icon, title, description }, idx) => (
             <div className="service-card why-card" key={idx}>
-              <Icon className="icon-svg" />
+              <Icon className="icon-svg" aria-hidden="true" />
               <h3>{title}</h3>
               <p>{description}</p>
             </div>
@@ -192,15 +216,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* CTA BANNER */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
+      {/* 10) CTA BANNER */}
       <section className="cta-banner container">
-        <h2 className="section-title">Ready to Simplify Your Online Presence?</h2>
+        <h2 className="section-title">
+          Ready to Simplify Your Online Presence?
+        </h2>
         <a className="cta-button" href="/contact">
           Let’s Talk
         </a>
       </section>
+
+      {/* 11) SITE FOOTER */}
+      <Footer />
     </>
   );
 }
