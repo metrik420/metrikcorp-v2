@@ -1,64 +1,62 @@
-/* ========================================================================== 
-   MetrikCorp Global Stylesheet
-   • Responsive, mobile‑first
-   • Fluid typography
-   • Sticky footer
-   • Canvas background
-   • Theme variables
-   • Navigation (desktop + mobile)
-   • Easter‑egg modal
-   • Logo polish and version display
+/* ==========================================================================  
+   MetrikCorp Global Stylesheet  
+   • Responsive, mobile‑first  
+   • Fluid typography  
+   • Sticky footer  
+   • Canvas background  
+   • Theme variables  
+   • Navigation (desktop + mobile)  
+   • Easter‑egg modal  
+   • Form styling  
    ========================================================================== */
 
-/* -------------------------------------------------------------------------- 
-   0) RESET & BOX‑SIZING
-   Ensures consistent sizing and removes default margins/padding.
+/* --------------------------------------------------------------------------  
+   0) RESET & BOX‑SIZING  
+   Ensures consistent box‑model and removes default margins/padding.  
    -------------------------------------------------------------------------- */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* -------------------------------------------------------------------------- 
-   1) PREVENT HORIZONTAL SCROLL
-   Locks overflow-x to avoid sideways scrolling.
+/* --------------------------------------------------------------------------  
+   1) PREVENT HORIZONTAL SCROLL  
+   Lock overflow‑x to avoid unwanted sideways scrolling.  
    -------------------------------------------------------------------------- */
 html, body {
   overflow-x: hidden;
   height: 100%;
-  scroll-behavior: smooth; /* smooth anchor jumps */
+  scroll-behavior: smooth; /* Smooth anchor jumps */
 }
 
-/* -------------------------------------------------------------------------- 
-   2) STICKY FOOTER LAYOUT
-   Flex container to push footer to bottom of viewport.
+/* --------------------------------------------------------------------------  
+   2) STICKY FOOTER LAYOUT  
+   Flex container to push footer to bottom of viewport.  
    -------------------------------------------------------------------------- */
-#root,
-.app-wrapper {
+#root, .app-wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 .main-content {
-  flex: 1; /* fill available space */
+  flex: 1; /* Fill available space above footer */
 }
 
-/* -------------------------------------------------------------------------- 
-   3) BRAND PALETTE & THEMING
-   CSS variables for dark/light mode.
+/* --------------------------------------------------------------------------  
+   3) BRAND PALETTE & THEMING  
+   CSS variables for dark/light mode.  
    -------------------------------------------------------------------------- */
 :root {
-  --color-primary:  #1a47ff;  /* Royal Blue */
-  --color-accent:   #00ffc3;  /* Electric Mint */
-  --color-bg:       #0d0d0d;  /* Dark background */
-  --color-panel:    #181a1f;  /* Panel/card background */
-  --color-text:     #f0f0f0;  /* Main text */
-  --color-subtext:  #aaaaaa;  /* Secondary text */
-  --color-danger:   #ff4f4f;  /* Errors / alerts */
+  --color-primary:  #1a47ff; /* Royal Blue */
+  --color-accent:   #00ffc3; /* Electric Mint */
+  --color-bg:       #0d0d0d; /* Dark background */
+  --color-panel:    #181a1f; /* Panel/card background */
+  --color-text:     #f0f0f0; /* Main text */
+  --color-subtext:  #aaaaaa; /* Secondary text */
+  --color-danger:   #ff4f4f; /* Errors / alerts */
 }
+
 [data-theme='light'] {
   --color-bg:      #f8f9fa;
   --color-panel:   #ffffff;
@@ -67,9 +65,9 @@ html, body {
   --color-accent:  #007bff;
 }
 
-/* -------------------------------------------------------------------------- 
-   4) GLOBAL BASE & FLUID TYPOGRAPHY
-   Sets base font, fluid heading sizes, and paragraph spacing.
+/* --------------------------------------------------------------------------  
+   4) GLOBAL BASE & FLUID TYPOGRAPHY  
+   Sets base font, fluid heading sizes, and paragraph spacing.  
    -------------------------------------------------------------------------- */
 body {
   font-family: 'Poppins', sans-serif;
@@ -89,9 +87,9 @@ p, li {
   margin-bottom: 1rem;
 }
 
-/* -------------------------------------------------------------------------- 
-   5) CONTAINER
-   Centers content and limits width.
+/* --------------------------------------------------------------------------  
+   5) CONTAINER  
+   Centers content and limits maximum width.  
    -------------------------------------------------------------------------- */
 .container {
   width: 100%;
@@ -102,9 +100,9 @@ p, li {
   z-index: 2;
 }
 
-/* -------------------------------------------------------------------------- 
-   6) ICON SIZING
-   Uniform sizing for SVG line‑icons via React‑Feather.
+/* --------------------------------------------------------------------------  
+   6) ICON SIZING  
+   Ensures SVG line‑icons are uniform, themable via stroke.  
    -------------------------------------------------------------------------- */
 .icon-svg {
   display: block;
@@ -114,9 +112,9 @@ p, li {
   stroke: var(--color-accent);
 }
 
-/* -------------------------------------------------------------------------- 
-   7) HEADER & NAVIGATION
-   Sticky header, backdrop blur, desktop and theme toggle.
+/* --------------------------------------------------------------------------  
+   7) HEADER & NAVIGATION  
+   Sticky header, backdrop blur, desktop nav, theme & mobile toggles.  
    -------------------------------------------------------------------------- */
 .site-header {
   position: sticky;
@@ -130,37 +128,17 @@ p, li {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap; /* wrap on narrow screens */
+  flex-wrap: wrap; /* Wrap on narrow screens */
   padding: 0.5rem 12px;
 }
-
-/* Logo polish */
 .logo {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.8rem;              /* slightly larger for emphasis */
-  font-weight: 700;               /* bold */
-  color: var(--color-primary);    /* brand blue */
-  letter-spacing: 0.5px;          /* modern feel */
-  display: inline-block;          /* allow transform */
-  transition: transform 0.2s ease;/* subtle hover effect */
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-primary);
   margin-bottom: 0.5rem;
 }
-.logo:hover {
-  transform: scale(1.05);         /* gentle zoom on hover */
-}
-
-/* Easter‑egg trigger “k” now visually identical */
-.egg-trigger {
-  cursor: pointer;      /* show pointer on hover */
-  color: inherit;       /* match surrounding text */
-  text-decoration: none;/* remove underline */
-}
-.egg-trigger:hover {
-  opacity: 0.8;         /* subtle feedback on hover */
-}
-
 .main-nav {
-  display: none;        /* shown via media query on desktop */
+  display: none; /* Shown via media query on desktop */
 }
 .theme-toggle,
 .nav-toggle {
@@ -171,7 +149,6 @@ p, li {
 .theme-toggle {
   color: var(--color-text);
   font-size: 0.9rem;
-  margin-left: 1rem;
 }
 .nav-toggle {
   font-size: 1.75rem;
@@ -179,9 +156,9 @@ p, li {
   z-index: 1000;
 }
 
-/* -------------------------------------------------------------------------- 
-   8) MOBILE NAV MENU (slide‑down)
-   Hidden by default, toggled via JS class "open".
+/* --------------------------------------------------------------------------  
+   8) MOBILE NAV MENU (slide‑down)  
+   Hidden by default, toggled via JS class `open`.  
    -------------------------------------------------------------------------- */
 .mobile-nav {
   display: none;
@@ -197,17 +174,17 @@ p, li {
 }
 .mobile-nav a {
   padding: 0.75rem 12px;
-  color: var(--color-text);
   text-decoration: none;
+  color: var(--color-text);
   border-bottom: 1px solid var(--color-subtext);
 }
 .mobile-nav a:last-child {
   border-bottom: none;
 }
 
-/* -------------------------------------------------------------------------- 
-   9) ANIMATED BACKGROUND LAYER – network.js
-   Full‑screen canvas with low opacity.
+/* --------------------------------------------------------------------------  
+   9) ANIMATED BACKGROUND LAYER – network.js  
+   Full‑screen canvas with low opacity & no pointer events.  
    -------------------------------------------------------------------------- */
 #network-bg {
   position: fixed;
@@ -220,9 +197,9 @@ p, li {
   z-index: 0;
 }
 
-/* -------------------------------------------------------------------------- 
-   10) HERO SECTION
-   Large padding, centered text.
+/* --------------------------------------------------------------------------  
+   10) HERO SECTION  
+   Large padding, centered text, CTA button.  
    -------------------------------------------------------------------------- */
 .hero {
   position: relative;
@@ -234,12 +211,16 @@ p, li {
   max-width: 600px;
   margin: 0 auto;
 }
-.hero h1 { margin-bottom: 1rem; }
-.hero p  { margin-bottom: 1.5rem; }
+.hero h1 {
+  margin-bottom: 1rem;
+}
+.hero p {
+  margin-bottom: 1.5rem;
+}
 
-/* -------------------------------------------------------------------------- 
-   11) CTA BUTTONS
-   High‑contrast accent buttons.
+/* --------------------------------------------------------------------------  
+   11) CTA BUTTONS  
+   High‑contrast accent buttons.  
    -------------------------------------------------------------------------- */
 .cta-button,
 .cta-primary {
@@ -256,9 +237,9 @@ p, li {
   background: #00ddb0;
 }
 
-/* -------------------------------------------------------------------------- 
-   12) ABOUT SECTION
-   Padding and text width constraints.
+/* --------------------------------------------------------------------------  
+   12) ABOUT SECTION  
+   Padding and text width constraints.  
    -------------------------------------------------------------------------- */
 .about-section {
   padding: clamp(40px, 8vw, 80px) 12px;
@@ -268,9 +249,9 @@ p, li {
   margin: 0 auto 1rem;
 }
 
-/* -------------------------------------------------------------------------- 
-   13) SERVICES & WHY GRID SECTIONS
-   Responsive grid from 1‑ to 4‑columns.
+/* --------------------------------------------------------------------------  
+   13) SERVICES & WHY GRID SECTIONS  
+   Responsive grid from 1‑ to 4‑columns.  
    -------------------------------------------------------------------------- */
 .section-title {
   margin-bottom: clamp(20px, 4vw, 40px);
@@ -282,6 +263,8 @@ p, li {
 }
 .services-grid { grid-template-columns: 1fr; }
 .why-grid     { grid-template-columns: 1fr; }
+
+/* Tablet: 2‑up */
 @media (min-width: 600px) {
   .services-grid,
   .why-grid {
@@ -289,12 +272,14 @@ p, li {
     gap: 16px;
   }
 }
+/* Desktop: 3‑up */
 @media (min-width: 900px) {
   .services-grid,
   .why-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+/* Large screens: 4‑up */
 @media (min-width: 1200px) {
   .services-grid,
   .why-grid {
@@ -308,9 +293,9 @@ p, li {
   text-align: center;
 }
 
-/* -------------------------------------------------------------------------- 
-   14) CTA BANNER
-   Centered minimal banner.
+/* --------------------------------------------------------------------------  
+   14) CTA BANNER  
+   Centered minimal banner.  
    -------------------------------------------------------------------------- */
 .cta-banner {
   padding: clamp(40px, 8vw, 80px) 12px;
@@ -320,9 +305,29 @@ p, li {
   margin-bottom: 1rem;
 }
 
-/* -------------------------------------------------------------------------- 
-   15) FOOTER & VERSION
-   Theme‑aware footer with version display.
+/* --------------------------------------------------------------------------  
+   15) CONTACT FORM  
+   Basic form inputs & spacing.  
+   -------------------------------------------------------------------------- */
+.form-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.25rem;
+  border: 1px solid var(--color-subtext);
+  border-radius: 4px;
+  background: var(--color-panel);
+  color: var(--color-text);
+  font-size: 1rem;
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(0, 255, 195, 0.3);
+}
+
+/* --------------------------------------------------------------------------  
+   16) FOOTER  
+   Consistent theme‑aware footer styles + version.  
    -------------------------------------------------------------------------- */
 .site-footer {
   background: var(--color-panel);
@@ -332,56 +337,22 @@ p, li {
   font-size: 0.875rem;
   border-top: 1px solid var(--color-subtext);
 }
-/* place this class on a <div> or <p> inside the Footer component */
 .footer-version {
-  margin-top: 0.25rem;
-  font-size: 0.75rem;
-  color: var(--color-subtext);
+  margin-top: 0.25rem;         /* Small gap above */
+  font-size: 0.75rem;          /* Slightly smaller */
+  color: var(--color-subtext); /* Use subtext color */
 }
 
-/* -------------------------------------------------------------------------- 
-   16) BREAKPOINTS: NAV & LAYOUT
-   Desktop nav & utility tweaks.
+/* --------------------------------------------------------------------------  
+   17) EASTER‑EGG MODAL  
+   Full‑screen inject of custom HTML content.  
    -------------------------------------------------------------------------- */
-@media (min-width: 768px) {
-  .nav-toggle,
-  .mobile-nav {
-    display: none !important;
-  }
-  .main-nav {
-    display: flex;
-  }
-  .main-nav a {
-    margin-left: 1rem;
-    color: var(--color-text);
-    text-decoration: none;
-    font-weight: 500;
-  }
+/* Only the “K” is the trigger—blends in but uses pointer cursor */
+.egg-trigger {
+  cursor: pointer;
+  color: var(--color-primary);
+  text-decoration: none;
 }
-
-/* Portrait vs. landscape small‑screen tweaks */
-@media (orientation: portrait) and (max-width: 600px) {
-  .hero {
-    padding-top: 80px;
-    padding-bottom: 60px;
-  }
-  .hero h1 {
-    font-size: 2rem;
-  }
-}
-@media (orientation: landscape) and (max-width: 600px) {
-  .hero {
-    padding: 40px 12px;
-  }
-  .section-title {
-    font-size: 1.5rem;
-  }
-}
-
-/* -------------------------------------------------------------------------- 
-   17) EASTER‑EGG MODAL
-   Full‑screen modal styling for inline content.
-   -------------------------------------------------------------------------- */
 .easter-egg-modal {
   position: fixed;
   inset: 0;
@@ -412,6 +383,169 @@ p, li {
   z-index: 2001;
 }
 
-/* ========================================================================== 
-   End of stylesheet – fully commented for future maintenance & upgrades
-   ========================================================================== */
+/* --------------------------------------------------------------------------  
+   18) BREAKPOINTS: NAV & LAYOUT  
+   Show desktop nav, hide mobile toggles at ≥768px  
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .nav-toggle,
+  .mobile-nav {
+    display: none !important;
+  }
+  .main-nav {
+    display: flex;
+  }
+  .main-nav a {
+    margin-left: 1rem;
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 500;
+  }
+}
+
+/* Portrait vs. landscape small‑screen tweaks */
+@media (orientation: portrait) and (max-width: 600px) {
+  .hero {
+    padding-top: 80px;
+    padding-bottom: 60px;
+  }
+  .hero h1 {
+    font-size: 2rem;
+  }
+}
+@media (orientation: landscape) and (max-width: 600px) {
+  .hero {
+    padding: 40px 12px;
+  }
+  .section-title {
+    font-size: 1.5rem;
+  }
+}
+
+
+
+/* =============================================================================
+   Projects.css – Flip‑card grid for Projects.jsx
+   • Responsive grid (1→4 columns)
+   • 3D flip animation on hover
+   • Uniform card sizing & detailed back
+   • Clickable hint underline for link cards
+   • Well‑commented for future maintenance
+   ============================================================================= */
+
+/* ─── Grid Layout ───────────────────────────────────────────────────────────── */
+/* 1 column mobile → 4 columns on wide screens */
+.projects-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+  margin-bottom: 2rem;
+}
+@media (min-width: 600px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 900px) {
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 1200px) {
+  .projects-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ─── Flip‑Card Container ──────────────────────────────────────────────────── */
+/* project-card sets perspective; inner does the rotate */
+.project-card {
+  background: transparent;
+  perspective: 1000px; /* 3D depth */
+  min-height: 240px;   /* uniform height */
+}
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+}
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* ─── Front & Back Faces ───────────────────────────────────────────────────── */
+/* Both occupy same space; backface hidden */
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: var(--color-panel);
+  color: var(--color-text);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.flip-card-front {
+  justify-content: center; /* center icon + title */
+}
+.flip-card-back {
+  transform: rotateY(180deg);
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+/* ─── Front Face Content ───────────────────────────────────────────────────── */
+/* Icon + title */
+.flip-card-front .icon-svg {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  stroke: var(--color-accent);
+}
+.project-title {
+  font-size: clamp(1rem, 2.0vw, 1.25rem);
+  text-align: center;
+  margin: 0;
+}
+
+/* ─── Back Face Content ────────────────────────────────────────────────────── */
+/* Description and optional link hint */
+.project-desc {
+  flex: 1; /* allow scrolling if too long */
+  font-size: clamp(0.9rem, 2.0vw, 1rem);
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+.project-link {
+  align-self: flex-start;
+  font-weight: 600;
+  text-decoration: underline var(--color-accent);
+}
+
+/* ─── Clickable Card Cue ───────────────────────────────────────────────────── */
+/* Only underline title on hover to hint link */
+.clickable .project-title {
+  text-decoration: none;
+}
+.clickable:hover .project-title {
+  text-decoration: underline var(--color-accent);
+  cursor: pointer;
+}
+
+/* ─── Responsive Small‑Screen Tweaks ───────────────────────────────────────── */
+/* Tighter padding and font on very small screens */
+@media (max-width: 480px) {
+  .flip-card-front,
+  .flip-card-back {
+    padding: 1rem;
+  }
+  .project-title {
+    font-size: 1rem;
+  }
+}

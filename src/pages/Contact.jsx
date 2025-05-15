@@ -1,26 +1,52 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// File: src/pages/Contact.jsx
-// Contact – batch animations for heading and text
-// ─────────────────────────────────────────────────────────────────────────────
-import React, { useEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+// =============================================================================
+// src/pages/Contact.jsx
+// Contact page for MetrikCorp
+// • SEO via DefaultSEO (react‑helmet + JSON‑LD)
+// • Sticky Header & Footer
+// • Fully responsive, mobile‑first
+// =============================================================================
 
-gsap.registerPlugin(ScrollTrigger);
+import React from 'react';
+import { DefaultSEO } from '../seo.jsx';      // Only DefaultSEO is exported
+import Header from '../components/Header';    // Site header + Easter‑egg trigger
+import Footer from '../components/Footer';    // Site footer with version
 
 export default function Contact() {
-  useEffect(() => {
-    ScrollTrigger.batch('.section-title, .section-text', {
-      onEnter: b=>gsap.fromTo(b,{opacity:0,y:20},{opacity:1,y:0, stagger:0.1, duration:0.5}),
-      start:'top 85%', once:true
-    });
-  }, []);
-
   return (
-    <section className="container">
-      <h1 className="section-title">Contact Us</h1>
-      <p className="section-text">Email: support@metrikcorp.com</p>
-      <p className="section-text">Let’s build something awesome together.</p>
-    </section>
+    <>
+      {/* ─────────────────────────────────────────────────────────────────────── */}
+      {/* 1) SEO META & JSON‑LD */}
+      {/* ─────────────────────────────────────────────────────────────────────── */}
+      <DefaultSEO
+        title="Contact Us | MetrikCorp"
+        description="Get in touch with MetrikCorp for expert web development, hosting guidance, and digital infrastructure support."
+        url="https://metrikcorp.com/contact"
+        image="https://metrikcorp.com/assets/og-image-contact.jpg"
+      />
+
+      {/* ─────────────────────────────────────────────────────────────────────── */}
+      {/* 2) SITE HEADER */}
+      {/* ─────────────────────────────────────────────────────────────────────── */}
+      <Header />
+
+      {/* ─────────────────────────────────────────────────────────────────────── */}
+      {/* 3) CONTACT CONTENT */}
+      {/* ─────────────────────────────────────────────────────────────────────── */}
+      <section className="container">
+        <h1 className="section-title">Contact Us</h1>
+        <p className="section-text">
+          Email: <a href="mailto:support@metrikcorp.com">support@metrikcorp.com</a>
+        </p>
+        <p className="section-text">
+          Let’s build something awesome together. Whether you need a new website, server optimization,
+          or ongoing digital infrastructure support, we’re here to help.
+        </p>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────────────── */}
+      {/* 4) SITE FOOTER */}
+      {/* ─────────────────────────────────────────────────────────────────────── */}
+      <Footer />
+    </>
   );
 }

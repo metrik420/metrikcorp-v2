@@ -1,6 +1,6 @@
 {
   "name": "metrikcorp-v2",
-  "version": "1.1.0",
+  "version": "2.2.1",
   "description": "Rebuilt MetrikCorp website with GSAP, React, and Vite",
   "scripts": {
     "dev": "vite",
