@@ -8,7 +8,7 @@
 import React from 'react';
 
 // Update this when bumping version (e.g. via `npm version`)
-const SITE_VERSION = 'v2.2.1';
+const SITE_VERSION = 'v2.3.2';
 
 export default function Footer() {
   return (

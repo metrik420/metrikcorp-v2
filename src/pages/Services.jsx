@@ -9,8 +9,6 @@
 
 import React from 'react';
 import { DefaultSEO } from '../seo.jsx';      // Global SEO meta tags & structured data
-import Header from '../components/Header';    // Site header + Easter‑egg trigger
-import Footer from '../components/Footer';    // Site footer with version
 import {
   Mail,
   Code,
@@ -76,11 +74,6 @@ export default function Services() {
       />
 
       {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* 2) SITE HEADER */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      <Header />
-
-      {/* ─────────────────────────────────────────────────────────────────────── */}
       {/* 3) SERVICES GRID */}
       {/* ─────────────────────────────────────────────────────────────────────── */}
       <section className="services-section container">
@@ -96,11 +89,6 @@ export default function Services() {
           ))}
         </div>
       </section>
-
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* 4) SITE FOOTER */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      <Footer />
     </>
   );
 }

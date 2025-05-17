@@ -9,8 +9,6 @@
 
 import React from 'react';
 import { DefaultSEO } from '../seo.jsx';           // SEO defaults + structured data
-import Header from '../components/Header';         // Sticky header + easter‑egg trigger
-import Footer from '../components/Footer';         // Theme‑aware footer (includes version)
 import {
   Server,         // MetrikCorp‑v2 site
   Activity,       // NetBox
@@ -46,7 +44,6 @@ const PROJECT_CATEGORIES = [
       { title: 'Live IP Tracker',     description: 'Real‑time IP tracking Python app in Docker.',                      Icon: Zap },
       { title: 'nginx‑proxy‑manager',  description: 'Web UI to manage Nginx reverse‑proxy.',                           Icon: Server },
       { title: 'Plex Media Server',   description: 'Home media streaming platform.',                                   Icon: Monitor },
-      { title: 'Broken MariaDB',      description: 'Legacy MariaDB instance stuck restarting.',                       Icon: AlertTriangle },
     ],
   },
   {
@@ -54,16 +51,16 @@ const PROJECT_CATEGORIES = [
     projects: [
       { title: 'Home Assistant',      description: 'Smart‑home automation hub running on Raspberry Pi OS.',           Icon: Wifi },
       { title: 'DakBoard Dashboard',  description: 'Family calendar & photo board display powered by DakBoard.',       Icon: Image },
-      { title: 'Homer Launcher',      description: 'Self‑hosted “launcher” page for easy Pi‑hosted app access.',      Icon: Smartphone },
     ],
   },
   {
     title: 'Open‑Source on GitHub',
     projects: [
-      { title: 'metrikcorp‑v2',     description: 'Source code for this website (React, Vite, GSAP, Docker).',       url: 'https://github.com/metrik420/metrikcorp-v2',    Icon: GitHub },
-      { title: 'live‑ip‑tracker',   description: 'Dockerized IP tracking service in Python/Flask.',                  url: 'https://github.com/metrik420/live-ip-tracker', Icon: GitHub },
-      { title: 'hacker‑portfolio',  description: 'React portfolio generator for devs.',                             url: 'https://github.com/metrik420/hacker-portfolio',   Icon: GitHub },
-      { title: 'hacker‑blog',       description: 'Flask‑based blogging engine with Markdown support.',               url: 'https://github.com/metrik420/hacker-blog',       Icon: GitHub },
+      { title: 'metrikcorp‑v2',     description: 'A modern, interactive React/Vite site for MetrikCorp, featuring scroll‑triggered animations, dynamic theme support, a real‑time canvas background, SVG iconography,',       url: 'https://github.com/metrik420/metrikcorp-v2',    Icon: GitHub },
+      { title: 'it_game',   description: 'This project is a web-based simulation game where players experience the career path of an IT professional, progressing from T1 to T4 support roles.',                  url: 'https://github.com/metrik420/it_game', Icon: GitHub },
+      { title: 'domain_info',  description: 'The Domain Info Script is a powerful Bash script designed to gather essential information about a specified domain. It performs a variety of checks, including WHOIS information, DNS records, blacklist status, website availability, and content management system (CMS) detection. This script is particularly useful for system administrators, web developers, and cybersecurity professionals who need to quickly assess domain properties.',                             url: 'https://github.com/metrik420/domain_info',   Icon: GitHub },
+      { title: 'Kaye-The-Home-Organizer-Python',       description: 'Kaye The Family Organizer" is a user-friendly web application designed to simplify family management. It features task management, a meal planner, a grocery list, a calendar, and live weather updates. The app is designed with a modern interface, vibrant animations, and responsive design, making it easy for families to organize their daily activities.',               url: 'https://github.com/metrik420/Kaye-The-Home-Organizer-Python',       Icon: GitHub },	
+      { title: 'WP-Plugin-Conflict-Checker',       description: 'Plugin & Theme Conflict Checker is a WordPress plugin designed to help you detect conflicts between active plugins and themes. It automatically monitors for common issues like PHP errors, admin notices, JavaScript conflicts, and slow page load times, making it easier to identify and troubleshoot potential problems that may be affecting your website’s performance.',               url: 'https://github.com/metrik420/WP-Plugin-Conflict-Checker',       Icon: GitHub },	
     ],
   },
 ];
@@ -80,11 +77,6 @@ export default function Projects() {
         url="https://metrikcorp.com/projects"
         image="https://metrikcorp.com/assets/og-image-projects.jpg"
       />
-
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* Site Header */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      <Header />
 
       {/* ─────────────────────────────────────────────────────────────────────── */}
       {/* Intro Section */}
@@ -141,11 +133,6 @@ export default function Projects() {
           </div>
         </section>
       ))}
-
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* Site Footer */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      <Footer />
     </>
   );
 }

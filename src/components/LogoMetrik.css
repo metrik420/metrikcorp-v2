@@ -1,0 +1,21 @@
+.logo-metrik {
+  filter: drop-shadow(0 0 8px #00f0ff);
+  animation: pulseGlow 2.8s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.logo-metrik:hover {
+  transform: scale(1.05);
+}
+
+@keyframes pulseGlow {
+  0% {
+    filter: drop-shadow(0 0 6px #00f0ff);
+  }
+  50% {
+    filter: drop-shadow(0 0 14px #00f0ff);
+  }
+  100% {
+    filter: drop-shadow(0 0 6px #00f0ff);
+  }
+}

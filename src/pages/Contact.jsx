@@ -8,8 +8,6 @@
 
 import React from 'react';
 import { DefaultSEO } from '../seo.jsx';      // Only DefaultSEO is exported
-import Header from '../components/Header';    // Site header + Easter‑egg trigger
-import Footer from '../components/Footer';    // Site footer with version
 
 export default function Contact() {
   return (
@@ -25,11 +23,6 @@ export default function Contact() {
       />
 
       {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* 2) SITE HEADER */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      <Header />
-
-      {/* ─────────────────────────────────────────────────────────────────────── */}
       {/* 3) CONTACT CONTENT */}
       {/* ─────────────────────────────────────────────────────────────────────── */}
       <section className="container">
@@ -42,11 +35,6 @@ export default function Contact() {
           or ongoing digital infrastructure support, we’re here to help.
         </p>
       </section>
-
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* 4) SITE FOOTER */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      <Footer />
     </>
   );
 }

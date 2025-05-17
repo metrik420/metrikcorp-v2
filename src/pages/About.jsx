@@ -9,8 +9,6 @@
 
 import React, { useEffect } from 'react';
 import { DefaultSEO } from '../seo.jsx';           // Global SEO meta tags & JSON‑LD
-import Header from '../components/Header';         // Sticky, theme‑aware header + Easter‑egg
-import Footer from '../components/Footer';         // Theme‑aware footer with version info
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -70,10 +68,6 @@ export default function About() {
         image="https://metrikcorp.com/assets/og-image-about.jpg"
       />
 
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* 3) SITE HEADER */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      <Header />
 
       {/* ─────────────────────────────────────────────────────────────────────── */}
       {/* 4) HERO / INTRO */}
@@ -157,11 +151,6 @@ export default function About() {
           directly with him—no middlemen.
         </p>
       </section>
-
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      {/* 9) SITE FOOTER */}
-      {/* ─────────────────────────────────────────────────────────────────────── */}
-      <Footer />
     </>
   );
 }
