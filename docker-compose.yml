@@ -1,13 +1,16 @@
-version: '3'
+version: '3.8'
+
 services:
   metrikcorp-v2:
-    build: .
     container_name: metrikcorp-v2
-    expose:
-      - "3000"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3005:80"
+    restart: always
     networks:
       - web
-    restart: always
 
 networks:
   web:

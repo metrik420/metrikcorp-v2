@@ -3,37 +3,39 @@
   <head>
     <meta charset="UTF-8" />
 
-    <!-- Transparent PNG favicon -->
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="64x64"
-      href="/favicon-transparent.png"
-    />
+    <!-- ✅ Responsive mobile scaling -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Optional additional sizes -->
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/favicon-transparent.png"
-    />
+    <!-- ✅ SEO Description -->
+    <meta name="description" content="MetrikCorp - Expert web development and server management for modern businesses" />
 
-    <!-- Fallback for older browsers -->
-    <link rel="shortcut icon" href="/favicon-transparent.png" />
+    <!-- ✅ Preload self-hosted Poppins font to improve LCP -->
+    <link rel="preload" href="/fonts/poppins.woff2" as="font" type="font/woff2" crossorigin />
 
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    <meta
-      name="description"
-      content="MetrikCorp - Expert web development and server management for modern businesses"
-    />
+    <!-- ✅ Load self-hosted font -->
+    <style>
+      @font-face {
+        font-family: 'Poppins';
+        src: url('/fonts/poppins.woff2') format('woff2');
+        font-weight: 400;
+        font-display: swap;
+      }
+
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+    </style>
+
+    <!-- ✅ Optimized favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <!-- ✅ Page title -->
     <title>MetrikCorp</title>
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- ✅ Let Vite inject JS/CSS automatically -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

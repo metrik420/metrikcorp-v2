@@ -4,7 +4,7 @@
   "description": "Rebuilt MetrikCorp website with GSAP, React, and Vite",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/full-rebuild.mjs",
     "serve": "vite preview"
   },
   "dependencies": {
@@ -16,7 +16,13 @@
     "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
+    "@vitejs/plugin-legacy": "^5.2.0",
     "@vitejs/plugin-react": "^4.0.0",
-    "vite": "^5.2.0"
+    "autoprefixer": "^10.4.21",
+    "critical": "^7.2.1",
+    "glob": "^11.0.2",
+    "vite": "^5.2.0",
+    "vite-plugin-pwa": "^0.16.4",
+    "vite-plugin-static-copy": "^3.0.0"
   }
 }

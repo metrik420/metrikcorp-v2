@@ -1,15 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="MetrikCorp - Expert web development and server management for modern businesses.">
+    <meta charset="UTF-8">
+
+    <!-- ✅ Responsive mobile scaling -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ✅ SEO Description -->
+    <meta name="description" content="MetrikCorp - Expert web development and server management for modern businesses">
+
+    <!-- ✅ Preload self-hosted Poppins font to improve LCP -->
+    <link rel="preload" href="/fonts/poppins.woff2" as="font" type="font/woff2" crossorigin="">
+
+    <!-- ✅ Load self-hosted font -->
+    <style>
+      @font-face {
+        font-family: 'Poppins';
+        src: url('/fonts/poppins.woff2') format('woff2');
+        font-weight: 400;
+        font-display: swap;
+      }
+
+      body {
+        font-family: 'Poppins', sans-serif;
+      }
+    </style>
+
+    <!-- ✅ Optimized favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- ✅ Page title -->
     <title>MetrikCorp</title>
-    <script type="module" crossorigin src="/assets/index-gP8NzM-d.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-ChKD7dss.css">
+    <style>*,:after,:before{box-sizing:border-box;margin:0;padding:0}body,html{overflow-x:hidden;height:100%;scroll-behavior:smooth}#root{display:flex;flex-direction:column;min-height:100vh}:root{--color-primary:#1a47ff;--color-accent:#00ffc3;--color-bg:#0d0d0d;--color-panel:#181a1f;--color-text:#f0f0f0;--color-subtext:#aaaaaa;--color-danger:#ff4f4f}body{background:var(--color-bg);color:var(--color-text);line-height:1.5}</style>
+    <script type="module" crossorigin="" src="/assets/index-Ds_9ODm9.js"></script>
+    <link rel="stylesheet" crossorigin="" href="/assets/index-CyHmLzmd.0be1d79c.css" media="print" onload="this.media='all'">
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- ✅ Let Vite inject JS/CSS automatically -->
+    <noscript><link rel="stylesheet" crossorigin="" href="/assets/index-CyHmLzmd.0be1d79c.css"></noscript>
   </body>
 </html>

@@ -1,11 +1,11 @@
 // File: src/pages/Home.jsx
-// ============================================================================
+// =============================================================================
 // Homepage – MetrikCorp.com
-// • Animated hero with CTA
-// • Services and company values
-// • Injects background animation + ScrollTrigger animations
-// • No layout elements (handled globally in App.jsx)
-// ============================================================================
+// Optimized for mobile performance & animation smoothness
+// - Uses requestIdleCallback to defer heavy animations
+// - ScrollTrigger animations are fast + non-blocking
+// - Content is immediately visible with fallback styles
+// =============================================================================
 
 import React, { useEffect } from 'react';
 import { DefaultSEO } from '../seo.jsx';
@@ -17,52 +17,63 @@ import {
   Globe, Cpu, TrendingUp
 } from 'react-feather';
 
-// Register GSAP plugin
+// Register the ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  // Inject canvas background animation
+  // Inject canvas background animation (network.js)
   useEffect(() => {
     const script = document.createElement('script');
     script.src = '/network.js';
     script.defer = true;
     document.body.appendChild(script);
-    return () => void document.body.removeChild(script);
+    return () => document.body.removeChild(script);
   }, []);
 
-  // Scroll animations or instant reveal
+  // Scroll animations optimized with requestIdleCallback for performance
   useEffect(() => {
-    const els = Array.from(document.querySelectorAll(
-      '.section-title, .section-text, .service-card, .why-card'
-    ));
+    requestIdleCallback(() => {
+      const els = Array.from(document.querySelectorAll(
+        '.section-title, .section-text, .service-card, .why-card'
+      ));
 
-    if (document.documentElement.scrollHeight <= window.innerHeight) {
-      gsap.set(els, { opacity: 1, y: 0, scale: 1 });
-    } else {
-      els.forEach((el, i) => {
-        const isCard = el.classList.contains('service-card') || el.classList.contains('why-card');
-        gsap.from(el, {
-          scrollTrigger: {
-            trigger: el,
-            start: isCard ? 'top 90%' : 'top 80%',
-            end: isCard ? 'bottom 10%' : 'bottom 20%',
-            toggleActions: 'play reverse play reverse',
-          },
-          opacity: 0,
-          y: isCard ? 60 : 40,
-          scale: isCard ? 0.95 : 0.98,
-          duration: isCard ? 0.7 : 0.8,
-          ease: isCard ? 'back.out(1.3)' : 'power3.out',
-          delay: isCard ? i * 0.1 : 0,
+      // If content fits within screen, show immediately (no animation)
+      if (document.documentElement.scrollHeight <= window.innerHeight) {
+        gsap.set(els, { opacity: 1, y: 0, scale: 1 });
+      } else {
+        els.forEach((el, i) => {
+          const isCard = el.classList.contains('service-card') || el.classList.contains('why-card');
+          gsap.fromTo(
+            el,
+            {
+              opacity: 0,
+              y: isCard ? 60 : 40,
+              scale: isCard ? 0.95 : 0.98
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: isCard ? 0.6 : 0.7,
+              ease: isCard ? 'power2.out' : 'power3.out',
+              delay: isCard ? i * 0.1 : 0,
+              scrollTrigger: {
+                trigger: el,
+                start: isCard ? 'top 90%' : 'top 85%',
+                toggleActions: 'play none none none'
+              }
+            }
+          );
         });
-      });
-    }
+      }
 
-    window.addEventListener('resize', ScrollTrigger.refresh);
-    return () => window.removeEventListener('resize', ScrollTrigger.refresh);
+      // Refresh triggers on window resize
+      window.addEventListener('resize', ScrollTrigger.refresh);
+      return () => window.removeEventListener('resize', ScrollTrigger.refresh);
+    });
   }, []);
 
-  // Services section
+  // Services offered by MetrikCorp
   const services = [
     { Icon: Mail,      title: 'Professional Email & DNS',    description: 'Setup/manage SPF, DKIM, DMARC; custom mail servers or G Suite—reach the inbox.' },
     { Icon: Code,      title: 'Custom Website Development',  description: 'Fast, SEO‑friendly sites with React, WordPress or PHP—tailored to your brand.' },
@@ -72,7 +83,7 @@ export default function Home() {
     { Icon: BarChart2, title: 'Growth & Scaling Strategy',   description: 'Advice on performance tuning, CDN, caching & next‑level infra for your growth.' },
   ];
 
-  // Why MetrikCorp section
+  // Why MetrikCorp? — Company values
   const values = [
     { Icon: UserCheck, title: 'Hands‑On Expert Support', description: 'Work directly with a senior full‑stack/Linux pro—no middlemen.' },
     { Icon: Globe,     title: 'All‑In‑One Partner',        description: 'Email, web, hosting advice, security & scaling—all under one roof.' },
@@ -90,7 +101,7 @@ export default function Home() {
         image="https://metrikcorp.com/assets/og-image.jpg"
       />
 
-      {/* Hero */}
+      {/* Hero Section */}
       <section className="hero">
         <canvas id="network-bg" />
         <div className="hero-text container">
@@ -103,7 +114,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About */}
+      {/* About Section */}
       <section className="about-section container">
         <h2 className="section-title">Who We Are</h2>
         <p className="section-text">
@@ -113,7 +124,7 @@ export default function Home() {
         </p>
       </section>
 
-      {/* Services */}
+      {/* Services Section */}
       <section className="services-section container">
         <h2 className="section-title">Our Services</h2>
         <div className="services-grid">
@@ -127,7 +138,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why MetrikCorp */}
+      {/* Why MetrikCorp Section */}
       <section className="why-metrik container">
         <h2 className="section-title">Why MetrikCorp?</h2>
         <div className="why-grid">
